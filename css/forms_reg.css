@@ -1,0 +1,47 @@
+*{
+	margin: 0 auto;
+	padding: 0;
+}
+
+.contenedor{
+	margin: 0 auto;
+	padding: 0 15%;
+	
+}
+
+.form-reg{
+	border-radius: 3px;
+	color: #fff;
+	width: 38%;
+	background-color: #b9cbe8;
+	padding: 15px 15px 25px 15px;
+}
+
+.form-fields{
+	border-radius: 7px;
+	color: #fff;
+	width: 95%;
+	padding: 8px;
+	background-color: #4f5256;
+}
+
+.tabla-datos-container{
+	padding: 5% 20%;
+	margin: 0 auto;
+}
+
+.tabla-datos{
+	padding: 3%;
+	color: #000;
+}
+
+.foot-content{
+	text-align: center;
+	padding-top: 10px;
+	font-size: 12px;
+}
+
+.foot-container{
+	position: relative;
+	bottom: 0;
+}
