@@ -164,60 +164,115 @@
 					<div id="tabla-mat3"></div>
 				</fieldset> <!--fin datos del material-->
 			</div>
+		</div>
 
-			<div id="prestador" align="center">
-			<h4>Prestado por:</h4>
-				<?php 
-						$datos = Datos::model()->findAll('id_tipo=1 and borrado=FALSE');
-						$data = array();
+		<div id="data-prestamo">	
+			<table id="datos-prestamo" class="table">
+				<tr>
+					<td colspan="2">
+						<div id="prestador" align="center">
+							<h4>Prestado por:</h4>
+								<?php 
+									$datos = Datos::model()->findAll('id_tipo=1 and borrado=FALSE');
+									$data = array();
 
-						foreach ($datos as $dato)
-						    $data[$dato->id] = $dato->nombres . ' '. $dato->apellidos;
-				?>
-				<?php echo $form->dropDownList($modelDatos, 'id', $data, array('prompt'=>'Seleccione')); ?>
-			</div>
-			<br>
+									foreach ($datos as $dato)
+									$data[$dato->id] = $dato->nombres . ' '. $dato->apellidos;
+								?>
+							<?php echo $form->dropDownList($modelDatos, 'id', $data, array('prompt'=>'Seleccione')); ?>
+						</div>
+						<br>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<div id="tipo_prestamo" align="center">
+							<h4>Tipo de Prestamo</h4>
+							<div class="span6">
+							<?php echo CHtml::label('Sala', ''); ?>
+							<?php echo $form->radioButton($model, 'id_tipoprestamo', array('value'=>1, 'uncheckvalue'=>null)); ?>
+							</div>
+							<div class="span5">	
+							<?php echo CHtml::label('Circulante', ''); ?>
+							<?php echo $form->radioButton($model, 'id_tipoprestamo', array('value'=>2, 'uncheckvalue'=>null)); ?>
+							</div>	
+							</div>
+					</td>
+				</tr>
+				<tr>
+					<td style="text-align: center;">
+							<?php echo $form->textFieldRow($model,'fecha_prestamo', array('readonly'=>true, 'value'=>date("d-m-Y"),)); ?>
+					</td>
+					<td style="text-align: center;">
+							<?php echo $form->labelEx($model, 'fecha_entrega'); ?>
+							<?php $this->widget('zii.widgets.jui.CJuiDatePicker', array(
+					                                        'model' => $model,
+					                                        'attribute' => 'fecha_prestamo',
+					                                        'value' => $model->fecha_prestamo,
+					                                        'language' => 'es',
+					                                        'htmlOptions' => array('readonly' => "readonly", 'class' => 'input-large', 'id'=>'fprestamo'),
+					                                        //additional javascript options for the date picker plugin
+					                                        'options' => array(
+					                                            'autoSize' => true,
+					                                            // 'defaultDate'=>$model->fechanacimiento,
+					                                            //'dateFormat'=>'yy-m-d',
+					                                            'dateFormat' => 'dd-mm-yy',
+					                                            'buttonImage' => Yii::app()->baseUrl . '/images/calendario.png',
+					                                            'buttonImageOnly' => true,
+					                                            'buttonText' => 'Escoger fecha',
+					                                            'selectOtherMonths' => true,
+					                                            'showAnim' => 'slide',
+					                                            'showButtonPanel' => true,
+					                                            'showOn' => 'button',
+					                                            'changeMonth' => 'true',
+					                                            'changeYear' => 'true',
+					                                            'yearRange' => "1900:+nn",
+					                                            'maxDate'=> 5,
+					                                            'minDate'=> 0,
+					                                        ),
+					                                    )); ?>
+					</td>
+				</tr>
+			</table>
 
-			<div id="tipo_prestamo" align="center">
-			<h4>Tipo de Prestamo</h4>
-				
-					<?php echo CHtml::label('Sala', ''); ?>
-					<?php echo $form->radioButton($model, 'id_tipoprestamo', array('value'=>1, 'uncheckvalue'=>null)); ?>
-				
-					<?php echo CHtml::label('Circulante', ''); ?>
-					<?php echo $form->radioButton($model, 'id_tipoprestamo', array('value'=>2, 'uncheckvalue'=>null)); ?>
-				
-			</div>
+			<div id="ventana_modal">
+				<?php $this->beginWidget('bootstrap.widgets.TbModal', array('id'=>'consultaPass')); ?>
+	 
+					<div class="modal-header">
+					    <a class="close" data-dismiss="modal">&times;</a>
+					    <h4>Modal header</h4>
+					</div>
+					 
+					<div class="modal-body">
+					    <p>One fine body...</p>
+					</div>
+					 
+					<div class="modal-footer">
+					    <?php $this->widget('bootstrap.widgets.TbButton', array(
+					        'type'=>'primary',
+					        'label'=>'Save changes',
+					        'url'=>'#',
+					        'htmlOptions'=>array('data-dismiss'=>'modal'),
+					    )); ?>
+					    <?php $this->widget('bootstrap.widgets.TbButton', array(
+					        'label'=>'Close',
+					        'url'=>'#',
+					        'htmlOptions'=>array('data-dismiss'=>'modal'),
+					    )); ?>
+					</div>
+				 
+				<?php $this->endWidget(); ?>
 
-			<div id="fechas">
-				<div id="fecha_prestamo">
-				<?php echo $form->textFieldRow($model,'fecha_prestamo', array('readonly'=>true, 'value'=>date("d-m-Y"),)); ?>
-				<?php echo $form->labelEx($model, 'fecha_entrega'); ?>
-				<?php $this->widget('zii.widgets.jui.CJuiDatePicker', array(
-		                                        'model' => $model,
-		                                        'attribute' => 'fecha_prestamo',
-		                                        'value' => $model->fecha_prestamo,
-		                                        'language' => 'es',
-		                                        'htmlOptions' => array('readonly' => "readonly", 'class' => 'input-large', 'id'=>'fprestamo'),
-		                                        //additional javascript options for the date picker plugin
-		                                        'options' => array(
-		                                            'autoSize' => true,
-		                                            // 'defaultDate'=>$model->fechanacimiento,
-		                                            //'dateFormat'=>'yy-m-d',
-		                                            'dateFormat' => 'dd-mm-yy',
-		                                            'buttonImage' => Yii::app()->baseUrl . '/images/calendario.png',
-		                                            'buttonImageOnly' => true,
-		                                            'buttonText' => 'Escoger fecha',
-		                                            'selectOtherMonths' => true,
-		                                            'showAnim' => 'slide',
-		                                            'showButtonPanel' => true,
-		                                            'showOn' => 'button',
-		                                            'changeMonth' => 'true',
-		                                            'changeYear' => 'true',
-		                                            'yearRange' => "1900:+nn",
-		                                            'maxDate'=> "+0D",
-		                                        ),
-		                                    )); ?></div>
+				<?php $this->widget('bootstrap.widgets.TbButton', array(
+				    'label'=>'Mostrar modal',
+				    'type'=>'inverse',
+				    'htmlOptions'=>array(
+				        'data-toggle'=>'modal',
+				        'data-target'=>'#consultaPass',
+				        'id'=>'btn-modal',
+				    ),
+				)); ?>
+
 			</div>
 
 			<br><br>
@@ -241,15 +296,16 @@
 
 	$(document).ready(function(){
 
-		$("#cant_materiales").hide();
+		/*$("#cant_materiales").hide();
 		$("#materiales").hide();
 		$("#material_1").hide();
 		$("#material_2").hide();
 		$("#material_3").hide();
 		$("#tabla-mat1").hide();
 		$("#tabla-mat2").hide();
-		$("#tabla-mat3").hide();
+		$("#tabla-mat3").hide();*/
 		var select = $("#'.CHtml::activeId($materiales,'cantidad').'");
+		var prestador = $("#'.CHtml::activeId($modelDatos,'id').'");
 
 		select.change(function(){
 			
@@ -305,6 +361,21 @@
 				}
 			}
 		});
+
+		prestador.change(function(){
+			
+			var modal = $("#consultaPass");
+			var valor_p = $("#btn-modal").click();
+
+			if ($(this).val() == 0 || $(this).val() == "") {
+				
+				 modal.hide();
+			}else{
+
+
+			modal.toggle();
+			}
+		});
 	});
 
 
@@ -357,11 +428,13 @@
 	}
 
 	function buscarMaterial(){		
-
+		
+		var btns = $("#materiales :button")
 		var btn_1 = $("#btn-material");
 		var btn_2 = $("#btn-material2");
 		var btn_3 = $("#btn-material3");
 
+		
 		btn_1.click(function() {
 			
 			var material = $("#material1").val();
