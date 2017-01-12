@@ -77,3 +77,6 @@ span.required { color:#ff0000; }
 }
 .form-inline select.error:focus, .form-inline input.error:focus, .form-inline textarea.error:focus, .form-horizontal select.error:focus, .form-horizontal input.error:focus, .form-horizontal textarea.error:focus, .form-vertical select.error:focus, .form-vertical input.error:focus, .form-vertical textarea.error:focus { border-color:#953b39; }
 .form-inline .help-block.error, .form-inline .help-inline.error, .form-horizontal .help-block.error, .form-horizontal .help-inline.error, .form-vertical .help-block.error, .form-vertical .help-inline.error { color:#b94a48; }
+
+.form-inline select.success:focus, .form-inline input.success:focus, .form-inline textarea.success:focus, .form-horizontal select.success:focus, .form-horizontal input.success:focus, .form-horizontal textarea.success:focus, .form-vertical select.success:focus, .form-vertical input.success:focus, .form-vertical textarea.success:focus { border-color:#953b39; }
+.form-inline .help-block.success, .form-inline .help-inline.success, .form-horizontal .help-block.success, .form-horizontal .help-inline.success, .form-vertical .help-block.success, .form-vertical .help-inline.success { color:#1b843b; }

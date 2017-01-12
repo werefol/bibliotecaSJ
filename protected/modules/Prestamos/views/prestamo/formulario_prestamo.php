@@ -62,9 +62,9 @@
 
         <div id="cant_materiales" class="row" align="center">
             <?php echo CHtml::label('Cantidad de materiales para el prestamo(max 3).', CHtml::activeId($materiales, 'cantidad')); ?>
-            <?php echo $form->dropDownList($materiales, 'cantidad', array('0'=>'1',
-                                                                            '1'=>'2',
-                                                                            '2'=>'3'),
+            <?php echo $form->dropDownList($materiales, 'cantidad', array('1'=>'1',
+                                                                            '2'=>'2',
+                                                                            '3'=>'3'),
                                                                 array('prompt'=>'Seleccione',
                                                                         'class'=>'input-medium')
                                             );
@@ -152,12 +152,12 @@
         <div id="tipo_prestamo" class="row" align="center">
             <legend class="span11" style=" font-size: 17px;"><b>Tipo de Prestamo</b></legend>
             <div class="span5">
-                <?php echo CHtml::label('Sala', ''); ?>
-                <?php echo $form->radioButton($model, 'id_tipoprestamo', array('value'=>1, 'uncheckvalue'=>null)); ?>
+                <?php echo CHtml::label('Sala',CHtml::activeId($model, 'id_tipoprestamo')); ?>
+                <?php echo CHtml::radioButton('tprestamo', true, array('value'=>1, 'uncheckvalue'=>null)); ?>
             </div>
             <div class="span5"> 
-                <?php echo CHtml::label('Circulante', ''); ?>
-                <?php echo $form->radioButton($model, 'id_tipoprestamo', array('value'=>2, 'uncheckvalue'=>null)); ?>
+                <?php echo CHtml::label('Circulante',CHtml::activeId($model, 'id_tipoprestamo')); ?>
+                <?php echo CHtml::radioButton('tprestamo', '', array('value'=>2, 'uncheckvalue'=>null)); ?>
             </div>
         </div>
         <br>
@@ -172,10 +172,10 @@
                     <?php $this->widget('zii.widgets.jui.CJuiDatePicker',
                                         array(
                                             'model' => $model,
-                                            'attribute' => 'fecha_prestamo',
-                                            'value' => $model->fecha_prestamo,
+                                            'attribute' => 'fecha_entrega',
+                                            'value' => $model->fecha_entrega,
                                             'language' => 'es',
-                                            'htmlOptions' => array('readonly' => "readonly", 'class' => 'input-large', 'id'=>'fprestamo'),
+                                            'htmlOptions' => array('readonly' => "readonly", 'class' => 'input-large', 'id'=>'fentrega'),
                                             //additional javascript options for the date picker plugin
                                             'options' => array(
                                                             'autoSize' => true,
@@ -213,49 +213,7 @@
                         );
             ?>
         </div>
-
-
-            <div id="ventana_modal">
-                <?php $this->beginWidget('bootstrap.widgets.TbModal', array('id'=>'consultaPass')); ?>
-     
-                    <div class="modal-header">
-                        <a class="close" data-dismiss="modal">&times;</a>
-                        <h4>Introduzca la contraseña del prestador</h4>
-                    </div>
-                     
-                    <div class="modal-body">
-                        <div id="user_pass">
-                            <?php echo $form->textFieldRow($modelDatos, 'password'); ?>
-                        </div>
-                    </div>
-                     
-                    <div class="modal-footer">
-                        <?php $this->widget('bootstrap.widgets.TbButton', array(
-                            'type'=>'primary',
-                            'label'=>'Save changes',
-                            'htmlOptions'=>'')); ?>
-                        <?php $this->widget('bootstrap.widgets.TbButton', array(
-                            'label'=>'Close',
-                            'url'=>'#',
-                            'htmlOptions'=>array('data-dismiss'=>'modal'),
-                        )); ?>
-                    </div>
-                 
-                <?php $this->endWidget(); ?>
-
-                <?php $this->widget('bootstrap.widgets.TbButton', array(
-                    'label'=>'Mostrar modal',
-                    'type'=>'inverse',
-                    'htmlOptions'=>array(
-                        'data-toggle'=>'modal',
-                        'data-target'=>'#consultaPass',
-                        'id'=>'btn-modal',
-                    ),
-                )); ?>
-
-            </div>
     </div><!--Fin materiales-container-->
-
 </div><!--Fin formulario-->
 
 <?php $this->endWidget(); ?>
@@ -282,7 +240,7 @@
             var cantidad = $("#'.CHtml::activeId($materiales, 'cantidad').'").val();
             alert(cantidad);
 
-            if (cantidad === "0") {
+            if (cantidad == 1) {
 
                 $("#materiales").show(0500);
                 $("#material_1").show(0500);            
@@ -296,7 +254,7 @@
                 $("#mat3").val("");
 
             }else{
-                if (cantidad == 1) {
+                if (cantidad == 2) {
 
                     $("#materiales").show(0500);
                     $("#material_1").show(0500);            
@@ -307,7 +265,7 @@
 
                     $("#mat3").val("");                
                 }else{
-                    if (cantidad == 2) {
+                    if (cantidad == 3) {
 
                         $("#materiales").show(0500);
                         $("#material_1").show(0500);            
@@ -425,13 +383,12 @@
                                         
                                     if(data.error==0) {                                            
 
-                                        $("#pass_error").html("");
-                                        alert("contraseña correcta");
+                                        $("#pass_error").html("<span class=\"help-inline success\">"+data.msg+"</span>");
                                         $("#check-pass").hide(0500);
 
                                                          
                                     }else{
-                                        $("#pass_error").html("<span class=\"help-inline error\">"+data.msgerror+"</span>");
+                                        $("#pass_error").html("<span class=\"help-inline error\">"+data.msg+"</span>");
                                         $("#check-pass").hide(0500);
                                         $("#'.CHtml::activeId($model,'id_prestador').' option:eq(0)").prop("selected", true);
                                         $("#'.CHtml::activeId($modelDatos, 'password').'").val("");

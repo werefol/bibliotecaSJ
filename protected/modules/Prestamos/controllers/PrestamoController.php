@@ -368,6 +368,7 @@ class PrestamoController extends Controller
 
 		if(isset($_POST['Prestamo']))
 		{
+			echo "<pre>";print_r($_POST);exit;
 			$model->attributes=$_POST['Prestamo'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
@@ -388,7 +389,7 @@ class PrestamoController extends Controller
 		$clave = array();
 		$clave['valor']='';
 		$clave['error']=1;
-		$clave['msgerror']='';
+		$clave['msg']='';
 
 		if (isset($_POST['prestador']) && $_POST['prestador']!="" && isset($_POST['pass']) && $_POST['pass']!=""){
 
@@ -399,17 +400,18 @@ class PrestamoController extends Controller
 			//echo "<pre>";print_r($user_pass); echo "\n";print_r($prestador); echo "\n";print_r($contraseña); echo "\n";exit;
 			if (empty($user_pass->password)) {
 
-				$clave['msgerror'] = 'Error en la consulta!';
+				$clave['msg'] = 'Error en la consulta!';
 			
 			}else{
 				if ($user_pass->password != $contraseña) {
 					
 					$clave['error'] = 1;
-					$clave['msgerror'] = 'La contraseña es incorrecta';					
+					$clave['msg'] = 'La contraseña es incorrecta!';					
 				
 				}else{
 
 					$clave['error'] = 0;
+					$clave['msg'] = 'La contraseña es correcta!';
 				}
 			}
 		}
