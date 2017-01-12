@@ -75,15 +75,15 @@ class Prestamo extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'id_prestador' => 'Id Prestador',
-			'id_solicitante' => 'Id Solicitante',
-			'id_tipoprestamo' => 'Id Tipoprestamo',
-			'id_receptor' => 'Id Receptor',
+			'id_prestador' => 'Prestador',
+			'id_solicitante' => 'Solicitante',
+			'id_tipoprestamo' => 'Tipo de prestamo',
+			'id_receptor' => 'Receptor',
 			'fecha_prestamo' => 'Fecha Prestamo',
 			'fecha_entrega' => 'Fecha Entrega',
 			'renovacion' => 'Renovacion',
 			'borrado' => 'Borrado',
-			'id_status' => 'Id Status',
+			'id_status' => 'Status',
 			'cedula' => 'Cédula del solicitante',
 			'material' => 'Material',
 			'cant_material' => 'Cantidad de material'

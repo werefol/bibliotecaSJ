@@ -27,15 +27,15 @@ class PrestamoController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view', 'DatosSolicitante', 'DatosMaterial'),
+				'actions'=>array('index','view', 'DatosSolicitante', 'DatosMaterial', 'VerificarPass'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update', 'DatosSolicitante', 'DatosMaterial'),
+				'actions'=>array('create','update', 'DatosSolicitante', 'DatosMaterial', 'Prestamo', 'VerificarPass'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete', 'DatosSolicitante', 'DatosMaterial'),
+				'actions'=>array('admin','delete', 'DatosSolicitante', 'DatosMaterial', 'Prestamo', 'VerificarPass'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -352,6 +352,68 @@ class PrestamoController extends Controller
 			//echo "hola";print_r($_POST);exit;
 		}
 		echo CJSON::encode($matData);
+	}
+
+	public function actionPrestamo()
+	{
+		$model=new Prestamo;
+		$ejemplar = Ejemplares::model()->find('id=1');
+		$modelEjemplar = new Ejemplares;
+		$materiales = new Materiales;
+		$tMaterial = new TipoMaterial;
+		$modelDatos = new Datos;
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['Prestamo']))
+		{
+			$model->attributes=$_POST['Prestamo'];
+			if($model->save())
+				$this->redirect(array('view','id'=>$model->id));
+		}
+
+		$this->render('formulario_prestamo',array(
+			'model'=>$model,
+			'modelEjemplar'=>$modelEjemplar,
+			'materiales' => $materiales,
+			'tMaterial' => $tMaterial,
+			'modelDatos' => $modelDatos,
+			'ejemplar' => $ejemplar,
+		));
+	}
+
+	public function actionVerificarPass(){
+
+		$clave = array();
+		$clave['valor']='';
+		$clave['error']=1;
+		$clave['msgerror']='';
+
+		if (isset($_POST['prestador']) && $_POST['prestador']!="" && isset($_POST['pass']) && $_POST['pass']!=""){
+
+			$prestador = $_POST['prestador'];
+			$contraseña = $_POST['pass'];
+
+			$user_pass = Datos::model()->find('id=:id AND borrado=false AND id_tipo=1', array(':id'=>$prestador));
+			//echo "<pre>";print_r($user_pass); echo "\n";print_r($prestador); echo "\n";print_r($contraseña); echo "\n";exit;
+			if (empty($user_pass->password)) {
+
+				$clave['msgerror'] = 'Error en la consulta!';
+			
+			}else{
+				if ($user_pass->password != $contraseña) {
+					
+					$clave['error'] = 1;
+					$clave['msgerror'] = 'La contraseña es incorrecta';					
+				
+				}else{
+
+					$clave['error'] = 0;
+				}
+			}
+		}
+		echo CJSON::encode($clave);
 	}
 
 	/**

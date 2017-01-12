@@ -12,7 +12,7 @@
 ?>
 
 
-	<div id="form">
+	<div id="form" class="row">
 		<fieldset>  <!--Datos del Solicitante-->
 			<legend style=" font-size: 17px;"><b>Datos del solicitante</b></legend>            
 			<table class="table table-bordered">
@@ -62,7 +62,7 @@
 		    </table>
 		</fieldset> <!--fin datos del solicitante-->
 
-			<div id="cant_materiales" align="center">
+			<div id="cant_materiales" class="row" align="center">
 
 				<?php echo CHtml::label('Cantidad de materiales para el prestamo(max 3).', CHtml::activeId($materiales, 'cantidad')); ?>
 				<?php echo $form->dropDownList($materiales, 'cantidad', array('0'=>'1',
