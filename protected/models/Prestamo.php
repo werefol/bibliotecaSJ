@@ -14,6 +14,7 @@
  * @property boolean $renovacion
  * @property boolean $borrado
  * @property integer $id_status
+ * @property integer $cant_material
  *
  * The followings are the available model relations:
  * @property PrestamoEjemplar[] $prestamoEjemplars
@@ -43,11 +44,11 @@ class Prestamo extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_prestador, id_solicitante, id_tipoprestamo, id_receptor, id_status', 'numerical', 'integerOnly'=>true),
-			array('fecha_prestamo, fecha_entrega, renovacion, borrado', 'safe'),
+			array('id_prestador, id_solicitante, id_tipoprestamo, id_receptor, id_status, cant_material', 'numerical', 'integerOnly'=>true),
+			array('fecha_prestamo, fecha_entrega, renovacion, borrado, cant_material', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, id_prestador, id_solicitante, id_tipoprestamo, id_receptor, fecha_prestamo, fecha_entrega, renovacion, borrado, id_status, cant_material, material', 'safe', 'on'=>'search'),
+			array('id, id_prestador, id_solicitante, id_tipoprestamo, id_receptor, fecha_prestamo, fecha_entrega, renovacion, borrado, id_status, cant_material', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -85,7 +86,6 @@ class Prestamo extends CActiveRecord
 			'borrado' => 'Borrado',
 			'id_status' => 'Status',
 			'cedula' => 'Cédula del solicitante',
-			'material' => 'Material',
 			'cant_material' => 'Cantidad de material'
 		);
 	}

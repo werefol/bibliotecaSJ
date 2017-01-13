@@ -59,80 +59,84 @@
             </tr>           
         </table>
     </fieldset>
-
+    <br>
         <div id="cant_materiales" class="row" align="center">
-            <?php echo CHtml::label('Cantidad de materiales para el prestamo(max 3).', CHtml::activeId($materiales, 'cantidad')); ?>
-            <?php echo $form->dropDownList($materiales, 'cantidad', array('1'=>'1',
-                                                                            '2'=>'2',
-                                                                            '3'=>'3'),
-                                                                array('prompt'=>'Seleccione',
-                                                                        'class'=>'input-medium')
-                                            );
-            ?>
+            <div id="contenedor-cantidad" class="span5 offset4">
+                <?php echo CHtml::label('Cantidad de materiales(max 3).', CHtml::activeId($model, 'cant_material')); ?>
+                <?php echo $form->dropDownList($model, 'cant_material', array('1'=>'1',
+                                                                                '2'=>'2',
+                                                                                '3'=>'3'),
+                                                                    array('prompt'=>'Seleccione',
+                                                                            'class'=>'input-medium')
+                                                );
+                ?>
+            </div>
         </div>
         <br><br>
     <div id="materiales" class="container-fluid"><br>
 
-        <div id="material_1" class="row" align="center">
-            <fieldset><!--Datos del Material1-->
-                <legend class="span11" style=" font-size: 17px;"><b>Datos del Material</b></legend>
+        <div id="material_1" class="row-fluid" align="center">
+            <fieldset class="mtrls"><!--Datos del Material1-->
+                <legend class="span12 mtrs" style=" font-size: 17px;"><b>Datos del Material</b></legend>
                 <div class="span11">
                     <div><b><?php echo CHtml::label('Cota','mat1'); ?></b></div>
                     <div>
-                        <?php echo CHtml::textField('mat1','',array('maxlength'=>'10', 'onchange'=>'buscarMaterial()')); ?>
+                        <?php echo CHtml::textField('mat1','',array('maxlength'=>'10', 'onchange'=>'buscarMaterial(1)')); ?>
                     </div>
                     <div id="ejemplar1">
-                        <?php echo CHtml::label('Ejemplar','ejemplar_1'); ?>
+                        <?php echo CHtml::label('Ejemplar(es)','ejemplar_1'); ?>
                         <?php echo CHtml::dropDownList('ejemplar_1', '', CHtml::listData(Ejemplares::model()->findAll(),'id', 'ejemplar')); ?>         
                     </div>
-                <div id="mensajesSistema"  class="materialData"></div>
+                <div id="mensajesSistema1"  class="materialData1"></div>
                 <br>                    
-                <div id="tabla-mat1"></div>
+                <div id="tabla-mat1" class="span12"></div>
                 </div>
             </fieldset><!--fin datos del material1-->
         </div>
+        <br>
 
-        <div id="material_2" class="row" align="center">
-            <fieldset><!--Datos del Material2-->
-                <legend class="span11" style=" font-size: 17px;"><b>Datos del Material</b></legend>
+        <div id="material_2" class="row-fluid" align="center">
+            <fieldset class="mtrls"><!--Datos del Material2-->
+                <legend class="span12 mtrs" style=" font-size: 17px;"><b>Datos del Material</b></legend>
                 <div class="span11">
                     <div><b><?php echo CHtml::label('Cota','mat2'); ?></b></div>
                     <div>
-                        <?php echo CHtml::textField('mat2','',array('maxlength'=>'10', 'onchange'=>'buscarMaterial()')); ?>
+                        <?php echo CHtml::textField('mat2','',array('maxlength'=>'10', 'onchange'=>'buscarMaterial(2)')); ?>
                     </div>
                     <div id="ejemplar2">
-                        <?php echo CHtml::label('Ejemplar','ejemplar_2'); ?>
+                        <?php echo CHtml::label('Ejemplar(es)','ejemplar_2'); ?>
                         <?php echo CHtml::dropDownList('ejemplar_2', '', CHtml::listData(Ejemplares::model()->findAll(),'id', 'ejemplar')); ?>         
                     </div>
                 <div id="mensajesSistema2"  class="materialData2"></div>
                 <br>                    
-                <div id="tabla-mat2"></div>
+                <div id="tabla-mat2" class="span12"></div>
                 </div>
             </fieldset><!--fin datos del material2-->
         </div>
+        <br>
 
-        <div id="material_3" class="row" align="center">
-            <fieldset><!--Datos del Material3-->
-                <legend class="span11" style=" font-size: 17px;"><b>Datos del Material</b></legend>
+        <div id="material_3" class="row-fluid" align="center">
+            <fieldset class="mtrls"><!--Datos del Material3-->
+                <legend class="span12 mtrs" style=" font-size: 17px;"><b>Datos del Material</b></legend>
                 <div class="span11">
                     <div><b><?php echo CHtml::label('Cota','mat3'); ?></b></div>
                     <div>
-                        <?php echo CHtml::textField('mat3','',array('maxlength'=>'10', 'onchange'=>'buscarMaterial()')); ?>
+                        <?php echo CHtml::textField('mat3','',array('maxlength'=>'10', 'onchange'=>'buscarMaterial(3)')); ?>
                     </div>
                     <div id="ejemplar3">
-                        <?php echo CHtml::label('Ejemplar','ejemplar_3'); ?>
+                        <?php echo CHtml::label('Ejemplar(es)','ejemplar_3'); ?>
                         <?php echo CHtml::dropDownList('ejemplar_3', '', CHtml::listData(Ejemplares::model()->findAll(),'id', 'ejemplar')); ?>         
                     </div>
                 <div id="mensajesSistema3"  class="materialData3"></div>
                 <br>                    
-                <div id="tabla-mat3"></div>
+                <div id="tabla-mat3" class="span12"></div>
                 </div>
             </fieldset><!--fin datos del material3-->
         </div>
         <br>
 
-        <div id="cant_materiales" class="row" align="center">
-            <legend class="span11" style=" font-size: 17px;"><b>Prestador</b></legend>
+        <div id="cant_materiales" class="row-fluid" align="center">
+            <legend class="span12 mtrs" style=" font-size: 17px;"><b>Prestador</b></legend>
             <div class="span11">
             <?php 
                 $datos = Datos::model()->findAll('id_tipo=1 and borrado=FALSE');
@@ -146,7 +150,7 @@
                                             );
             ?>
             </div>
-            <div id="pass_error" class="span11"></div>
+            <div id="pass_error" class="span12"></div>
             <div id="check-pass" class="span11 input-append">
                 <?php echo $form->passwordField($modelDatos, 'password'); ?>
                 <?php $this->widget('bootstrap.widgets.TbButton', array(
@@ -161,8 +165,8 @@
         </div>
         <br>
 
-        <div id="tipo_prestamo" class="row" align="center">
-            <legend class="span11" style=" font-size: 17px;"><b>Tipo de Prestamo</b></legend>
+        <div id="tipo_prestamo" class="row-fluid" align="center">
+            <legend class="span12 mtrs" style=" font-size: 17px;"><b>Tipo de Prestamo</b></legend>
             <div class="span5">
                 <?php echo CHtml::label('Sala',CHtml::activeId($model, 'id_tipoprestamo')); ?>
                 <?php echo CHtml::radioButton('tprestamo', true, array('value'=>1, 'uncheckvalue'=>null)); ?>
@@ -174,8 +178,8 @@
         </div>
         <br>
 
-        <div id="fecha_prestamo" class="row" align="center">
-            <legend class="span11" style=" font-size: 17px;"><b>Fechas del Prestamo</b></legend>
+        <div id="fecha_prestamo" class="row-fluid" align="center">
+            <legend class="span12 mtrs" style=" font-size: 17px;"><b>Fechas del Prestamo</b></legend>
                 <div id="fecha_prestamo" class="span5">
                     <?php echo $form->textFieldRow($model,'fecha_prestamo', array('readonly'=>true, 'value'=>date("d-m-Y"),)); ?>
                 </div>
@@ -234,7 +238,7 @@
 
     $(document).ready(function(){
 
-        $("#cant_materiales").hide();
+        /*$("#cant_materiales").hide();
         $("#materiales").hide();
         $("#material_1").hide();
         $("#material_2").hide();
@@ -244,13 +248,13 @@
         $("#tabla-mat2").hide();
         $("#tabla-mat3").hide();
 
-        //$("#ejemplar1").hide();
-        //$("#ejemplar2").hide();
-        //$("#ejemplar3").hide();
+        $("#ejemplar1").hide();
+        $("#ejemplar2").hide();
+        $("#ejemplar3").hide();*/
 
         $("#check-pass").hide();
         $("#btn-modal").hide();
-        var select = $("#'.CHtml::activeId($materiales,'cantidad').'");
+        var cantidadM = $("#'.CHtml::activeId($model, 'cant_material').'");
         var prestador = $("#'.CHtml::activeId($model,'id_prestador').'");
 
         $("#ejemplar_1").empty();
@@ -260,10 +264,10 @@
         $("#ejemplar_3").empty();
         $("#ejemplar_3").append(\'<option value="">...Seleccione...</option>\');
 
-        select.change(function(){
+        cantidadM.change(function(){
             
-            var cantidad = $("#'.CHtml::activeId($materiales, 'cantidad').'").val();
-            alert(cantidad);
+            var cantidad = $("#'.CHtml::activeId($model, 'cant_material').'").val();
+            //alert(cantidad);
 
             if (cantidad == 1) {
 
@@ -272,11 +276,16 @@
                 $("#material_2").hide(0500);
                 $("#material_3").hide(0500);
 
-                $("#tabla-mat2").html("");
-                $("#tabla-mat3").html("");
-
                 $("#mat2").val("");
+                $("#ejemplar_2").html("");
+                $("#ejemplar2").hide(0500);
+                $("#tabla-mat2").html("");
+
+
                 $("#mat3").val("");
+                $("#ejemplar_3").html("");
+                $("#ejemplar3").hide(0500);
+                $("#tabla-mat3").html("");
 
             }else{
                 if (cantidad == 2) {
@@ -288,7 +297,10 @@
 
                     $("#tabla-mat3").html("");
 
-                    $("#mat3").val("");                
+                    $("#mat3").val("");
+                    $("#ejemplar_3").html("");
+                    $("#ejemplar3").hide(0500);
+
                 }else{
                     if (cantidad == 3) {
 
@@ -298,17 +310,8 @@
                         $("#material_3").show(0500);
                     }else{
                         if (cantidad == "") {
-                            
-                            $("#materiales").hide(0500);
-                            $("#material_1").hide(0500);
-                            $("#material_2").hide(0500);
-                            $("#material_3").hide(0500);
 
-                            $("#tabla-mat1").html("");
-                            $("#tabla-mat2").html("");
-                            $("#tabla-mat3").html("");
-
-                            limpiarCota();
+                            limpiaryesconder();
                         }
                     }
                 }
@@ -329,7 +332,7 @@
                 //$("#btn-modal").click();
                 $("#check-pass").show(0500);
                 $("#pass_error").html("");
-                $("#'.CHtml::activeId($modelDatos, 'password').'").val("");
+                $("#'.CHtml::activeId($modelDatos, 'password').'").val("").focus();
 
             }
         });
@@ -339,49 +342,57 @@
     function datosSolicitante(){
 
         var cedula = $("#'.CHtml::activeId($model,'cedula').'").val();
-        var select = $("#'.CHtml::activeId($materiales,'cantidad').'");
+        var select = $("#'.CHtml::activeId($model, 'cant_material').'");
+        
+        if (cedula !== "") {
+            
+            if ($.isNumeric(cedula) && cedula>=1) {                 
 
-        if ($.isNumeric(cedula) && cedula>=1) {                 
+                            $.ajax({
 
-                        $.ajax({
+                                    url:"'.CController::createUrl('DatosSolicitante').'",
+                                    cache: false,
+                                    type: "POST",
+                                    dataType: "json",
+                                    data: ({cedula:cedula}),
+                                    beforeSend: function(xkr){
+                                                    $(".datosPersonales").html("");
+                                                    $("#mensajesSistem").html("");                                          
+                                                },
 
-                                url:"'.CController::createUrl('DatosSolicitante').'",
-                                cache: false,
-                                type: "POST",
-                                dataType: "json",
-                                data: ({cedula:cedula}),
-                                beforeSend: function(xkr){
-                                        $(".datosPersonales").html("");
-                                        $("#mensajesSistem").html("");                                          
-                                        },
+                                    success: function(data){
+                                        
+                                        if(data.error==0) {
 
-                                success: function(data){
-                                    
-                                    if(data.error==0) {
+                                                $("#nombres_apellidos").html(data.nombre_completo);
+                                                $("#telefono").html(data.telefono);
+                                                $("#correo").html(data.correo);
+                                                $("#interno").html(data.interno);
+                                                $("#semestre").html(data.semestre);
+                                                $("#fecha_registro").html(data.fecha_registro);
+                                                $("#estado").html(data.estado);
+                                                $("#cant_materiales").show(0500);
+                                                         
+                                        }else{
+                                            $("#mensajesSistem").html(data.msg_error);
+                                            $("#cant_materiales").hide(0500);
+                                            select.val("");
 
-                                            $("#nombres_apellidos").html(data.nombre_completo);
-                                            $("#telefono").html(data.telefono);
-                                            $("#correo").html(data.correo);
-                                            $("#interno").html(data.interno);
-                                            $("#semestre").html(data.semestre);
-                                            $("#fecha_registro").html(data.fecha_registro);
-                                            $("#estado").html(data.estado);
-                                            $("#cant_materiales").show(0500);
-                                                     
-                                    }else{
-                                        $("#mensajesSistem").html(data.msg_error);
-                                        $("#cant_materiales").hide(0500);
-                                        select.val("");
-
+                                        }
                                     }
-                                }
 
-                        });
-                }
-                else{
+                            });
+                    
+            }else{
 
-                    $("#msg_error").html("");
-                }
+                $("#msg_error").html("");
+            }
+        
+        }else{
+
+            limpiarFormulario();
+            $("#mensajesSistem").html("<span class=\"help-inline error\">Introduzca una cédula para proseguir!</span>");
+        }
     }
 
     function verificarPass(){
@@ -428,15 +439,9 @@
         }
     }
 
-    function buscarMaterial(){
-
-        var mate1 = $("#mat1");
-        var mate2 = $("#mat2");
-        var mate3 = $("#mat3");
-
-        if (mate1.change) {
-                             
-            var material = mate1.val();
+    function buscarMaterial(num){                             
+            
+            var material = $("#mat"+num).val();
             if (material && material!=="") {
                 
                 $.ajax({
@@ -446,99 +451,91 @@
                         dataType: "json",
                         data: ({material:material}),
                         beforeSend: function(xkr){
-                                        $("#mensajesSistema").html("");
-                                        $(".materialData").html("");                                          
+                                        $("#mensajesSistema"+num).html("");
+                                        $(".materialData"+num).html("");
+                                        $("#ejemplar_"+num).html("");
+                                        $("#ejemplar_"+num).append(\'<option value="">...Seleccione...</option>\');
+
                                     },
 
                         success: function(data){
                                         
                                     if(data.error==0) {                                            
 
-                                        $("#tabla-mat1").html(data.tabla);
-                                        $("#tabla-mat1").show(0500);
-                                                         
-                                    }else{
-                                        $("#mensajesSistema").html(data.msg_error);
-                                        $("#tabla-mat1").hide(0500);
-                                    }
-                                }
+                                        $("#tabla-mat"+num).html(data.tabla);
+                                        $("#tabla-mat"+num).show(0500);
 
-                });
-            }
-        }
-
-        if (mate2.change) {
-                             
-            var material = mate2.val();
-            if (material && material!=="") {
-                
-                $.ajax({
-                        url:"'.CController::createUrl('DatosMaterial').'",
-                        cache: false,
-                        type: "POST",
-                        dataType: "json",
-                        data: ({material:material}),
-                        beforeSend: function(xhr){
-                                        $("#mensajesSistema2").html("");
-                                        $(".materialData2").html("");                                          
-                                    },
-
-                        success: function(data){
+                                        if (data.ejemplares !== "") {
+                                            
+                                            $("#ejemplar_"+num).append(data.ejemplares);
+                                            $("#ejemplar"+num).show(0500);
+                                            $("#mensajesSistema"+num).html("");
                                         
-                                    if(data.error == 0) {                                            
+                                        }else{
 
-                                        $("#tabla-mat2").html(data.tabla);
-                                        $("#tabla-mat2").show(0500);
+                                            $("#ejemplar_"+num).html("");
+                                            $("#ejemplar"+num).hide(0500);
+                                            $("#mensajesSistema"+num).html(data.msg_error);
+                                        }
                                                          
                                     }else{
-                                        $("#mensajesSistema2").html(data.msg_error);
-                                        $("#tabla-mat2").hide(0500);
+                                        $("#mensajesSistema"+num).html(data.msg_error);
+                                        $("#tabla-mat"+num).hide(0500);
+                                        $("#ejemplar_"+num).html("");
+                                        $("#ejemplar"+num).hide(0500);
                                     }
                                 }
 
                 });
             }
-        }
-
-        if (mate3.change) {
-                             
-            var material = mate3.val();
-            if (material && material!=="") {
-                
-                $.ajax({
-                        url:"'.CController::createUrl('DatosMaterial').'",
-                        cache: false,
-                        type: "POST",
-                        dataType: "json",
-                        data: ({material:material}),
-                        beforeSend: function(xkr){
-                                        $("#mensajesSistema3").html("");
-                                        $(".materialData3").html("");                                          
-                                    },
-
-                        success: function(data){
-                                        
-                                    if(data.error==0) {                                            
-
-                                        $("#tabla-mat3").html(data.tabla);
-                                        $("#tabla-mat3").show(0500);
-                                                         
-                                    }else{
-                                        $("#mensajesSistema3").html(data.msg_error);
-                                        $("#tabla-mat3").hide(0500);
-                                    }
-                                }
-
-                });
-            }
-        }
     }
 
-    function limpiarCota(){
+    function limpiaryesconder(){
         
-        $("#mat1").val("");
-        $("#mat2").val("");
-        $("#mat3").val("");
+        $("#mat1").val("");//cota
+        $("#ejemplar_1").html("");//desplegable ejemplar
+        $("#ejemplar1").hide(0500);//desplegable ejemplar
+        $("#tabla-mat1").html("");//tabla de datos mat1
+
+        $("#mat2").val("");//cota
+        $("#ejemplar_2").html("");//desplegable ejemplar
+        $("#ejemplar2").hide(0500);//desplegable ejemplar
+        $("#tabla-mat2").html("");//tabla de datos mat1
+
+        $("#mat3").val("");//cota
+        $("#ejemplar_3").html("");//desplegable ejemplar
+        $("#ejemplar3").hide(0500);//desplegable ejemplar
+        $("#tabla-mat3").html("");//tabla de datos mat1
+
+        $("#materiales").hide(0500);
+        $("#material_1").hide(0500);
+        $("#material_2").hide(0500);
+        $("#material_3").hide(0500);
+
+        $("#'.CHtml::activeId($model,'id_prestador').' option:eq(0)").prop("selected", true);//desplegable de prestador
+        $("#'.CHtml::activeId($modelDatos, 'password').'").val("");//campo de password en prestador
+        $("#fentrega").val("");//campo fecha de entrega
+    }
+
+    function limpiarFormulario(){
+
+        $("#nombres_apellidos").html("");
+        $("#telefono").html("");
+        $("#correo").html("");
+        $("#interno").html("");
+        $("#semestre").html("");
+        $("#fecha_registro").html("");
+        $("#estado").html("");
+
+        $(".datosPersonales").html("");
+        $("#mensajesSistem").html("");
+
+        $("#cant_materiales").hide(0500);
+        $("#materiales").hide(0500);
+
+        limpiaryesconder();
+
+        $("#'.CHtml::activeId($model, 'cant_material').' option:eq(0)").prop("selected", true);
     }
 
 ',CClientScript::POS_HEAD); ?>

@@ -226,6 +226,7 @@ class PrestamoController extends Controller
 		$matData['error'] = 1;
 		$matData['tabla'] = '';
 		$matData['msg_error'] = '';
+		$matData['ejemplares']='';
 
 
 		if (isset($_POST['material']) && $_POST['material']!=""){
@@ -235,7 +236,7 @@ class PrestamoController extends Controller
 			$mats = Materiales::model()->find('cota=:cota AND cantidad>0 AND borrado=FALSE', array(':cota'=>$_POST['material']));
 
 			//echo "1era condicion";print_r($_POST);exit;
-			if ($mats) {
+			if (!empty($mats)) {
 
 				$matData['error'] = 0;
 
@@ -267,10 +268,23 @@ class PrestamoController extends Controller
 							    </tbody>
 							</table>';
 
-					$modeloEjemplar = Ejemplares::model()->findAll('t.id_material=:material', array(':material'=>$mats->id));
-					echo "<pre>";print_r($modeloEjemplar);exit;
-				
-					$matData['tabla'] = $tbl;
+					$modeloEjemplar = Ejemplares::model()->findAll('id_material=:material AND borrado=false AND id_status=1', array(':material'=>$mats->id));
+
+					//echo "<pre>";print_r($modeloEjemplar);print_r($mats->id);exit;
+
+					if (!empty($modeloEjemplar)) {
+						
+						foreach ($modeloEjemplar as $indice => $valor) {
+							
+							$matData['ejemplares'].='<option value="'.$valor->id.'">'.$valor->ejemplar.'</option>';
+						}
+
+						$matData['tabla'] = $tbl;
+					
+					}else{
+						
+						$matData['msg_error'] = '<span class="help-inline error">No existen ejemplares o no hay ejemplares disponibles de este libro.</span>';
+					}
 
 				}elseif ($mats->id_tipomat == 2) {
 
@@ -294,8 +308,25 @@ class PrestamoController extends Controller
 							            <td><b>Cantidad del material</b><br>'.$mats->cantidad.'</td>
 							        </tr>
 							    </table>';
+
+					$modeloEjemplar = Ejemplares::model()->findAll('id_material=:material AND borrado=false AND id_status=1', array(':material'=>$mats->id));
+
+					//echo "<pre>";print_r($modeloEjemplar);print_r($mats->id);exit;
+
+					if (!empty($modeloEjemplar)) {
+						
+						foreach ($modeloEjemplar as $indice => $valor) {
+							
+							$matData['ejemplares'].='<option value="'.$valor->id.'">'.$valor->ejemplar.'</option>';
+						}
+
+						$matData['tabla'] = $tbl;
+					
+					}else{
+						
+						$matData['msg_error'] = '<span class="help-inline error">No existen ejemplares o no hay ejemplares disponibles de esta revista.</span>';
+					}
 				
-					$matData['tabla'] = $tbl;
 
 				}elseif ($mats->id_tipomat == 3 || $mats->id_tipomat == 5) {
 					$tbl = '<table class="table table-bordered table-striped">
@@ -337,7 +368,7 @@ class PrestamoController extends Controller
 			}else{
 
 				$matData['error'] = 1;
-				$matData['msg_error'] = '<span class="help-inline error">La cota no coincide con ninguna de las registradas.</span>';
+				$matData['msg_error'] = '<span class="help-inline error">La cota introducida no coincide con ninguna de las registradas.</span>';
 			}
 
 		}else{
@@ -350,7 +381,6 @@ class PrestamoController extends Controller
 	public function actionPrestamo()
 	{
 		$model=new Prestamo;
-		$ejemplar = Ejemplares::model()->find('id=1');
 		$modelEjemplar = new Ejemplares;
 		$materiales = new Materiales;
 		$tMaterial = new TipoMaterial;
@@ -359,12 +389,69 @@ class PrestamoController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Prestamo']))
+		if(!empty($_POST['Prestamo']))
 		{
-			echo "<pre>";print_r($_POST);exit;
 			$model->attributes=$_POST['Prestamo'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+
+			$solicitante = Datos::model()->find('cedula=:cedula AND borrado=false AND id_tipo=2', array(':cedula'=>$_POST['Prestamo']['cedula']));
+
+			echo "<pre>";print_r($_POST);echo"\n";print_r($solicitante);echo"\n";print_r($model);exit;
+
+			if (!empty($solicitante)) {
+				
+				$model->$id_solicitante = $solicitante->id;
+				$model->id_status = 1;
+				
+				if($model->save()){
+
+					$indice = 1;
+					foreach ($_POST['mat'.$indice] as $key => $value) {
+
+						if ($value != "") {
+							
+							$mat = Materiales::model()->find('cota=:cota AND borrado=false AND cantidad>0', array(':cota'=>$value));
+
+							if (!empty($mat)) {
+								
+								$mat->cantidad = $mat->cantidad - 1;
+
+								if ($mat->update()) {
+									
+									foreach ($_POST['ejemplar_'.$indice] as $key => $valor) {
+										
+										if ($valor != "") {
+											
+											$ejmplr = Ejemplares::model()->find('id=:id AND borrado=false AND id_status=1', array(':id'=>$valor));
+
+											if (!empty($ejmplr)) {
+												
+												$ejmplr->id_status = 2;
+
+												if ($ejmplr->update()) {
+													
+													$indice++;
+												}
+											}
+										}
+									}
+								}
+							
+							}else{
+
+								Yii::app()->user->setFlash('error', 'Ya no quedan ejemplares de este libro!');
+								$this->refresh();
+							}
+						}
+					}
+
+					$this->redirect(array('view','id'=>$model->id));
+				}
+			
+			}else{
+
+				Yii::app()->user->setFlash('error', 'Solicitante no encontrado!');
+				$this->refresh();
+			}
 		}
 
 		$this->render('formulario_prestamo',array(
@@ -373,7 +460,6 @@ class PrestamoController extends Controller
 			'materiales' => $materiales,
 			'tMaterial' => $tMaterial,
 			'modelDatos' => $modelDatos,
-			'ejemplar' => $ejemplar,
 		));
 	}
 
