@@ -81,6 +81,10 @@
                     <div>
                         <?php echo CHtml::textField('mat1','',array('maxlength'=>'10', 'onchange'=>'buscarMaterial()')); ?>
                     </div>
+                    <div id="ejemplar1">
+                        <?php echo CHtml::label('Ejemplar','ejemplar_1'); ?>
+                        <?php echo CHtml::dropDownList('ejemplar_1', '', CHtml::listData(Ejemplares::model()->findAll(),'id', 'ejemplar')); ?>         
+                    </div>
                 <div id="mensajesSistema"  class="materialData"></div>
                 <br>                    
                 <div id="tabla-mat1"></div>
@@ -96,6 +100,10 @@
                     <div>
                         <?php echo CHtml::textField('mat2','',array('maxlength'=>'10', 'onchange'=>'buscarMaterial()')); ?>
                     </div>
+                    <div id="ejemplar2">
+                        <?php echo CHtml::label('Ejemplar','ejemplar_2'); ?>
+                        <?php echo CHtml::dropDownList('ejemplar_2', '', CHtml::listData(Ejemplares::model()->findAll(),'id', 'ejemplar')); ?>         
+                    </div>
                 <div id="mensajesSistema2"  class="materialData2"></div>
                 <br>                    
                 <div id="tabla-mat2"></div>
@@ -110,6 +118,10 @@
                     <div><b><?php echo CHtml::label('Cota','mat3'); ?></b></div>
                     <div>
                         <?php echo CHtml::textField('mat3','',array('maxlength'=>'10', 'onchange'=>'buscarMaterial()')); ?>
+                    </div>
+                    <div id="ejemplar3">
+                        <?php echo CHtml::label('Ejemplar','ejemplar_3'); ?>
+                        <?php echo CHtml::dropDownList('ejemplar_3', '', CHtml::listData(Ejemplares::model()->findAll(),'id', 'ejemplar')); ?>         
                     </div>
                 <div id="mensajesSistema3"  class="materialData3"></div>
                 <br>                    
@@ -222,18 +234,31 @@
 
     $(document).ready(function(){
 
-        /*$("#cant_materiales").hide();
+        $("#cant_materiales").hide();
         $("#materiales").hide();
         $("#material_1").hide();
         $("#material_2").hide();
         $("#material_3").hide();
+
         $("#tabla-mat1").hide();
         $("#tabla-mat2").hide();
-        $("#tabla-mat3").hide();*/
+        $("#tabla-mat3").hide();
+
+        //$("#ejemplar1").hide();
+        //$("#ejemplar2").hide();
+        //$("#ejemplar3").hide();
+
         $("#check-pass").hide();
         $("#btn-modal").hide();
         var select = $("#'.CHtml::activeId($materiales,'cantidad').'");
         var prestador = $("#'.CHtml::activeId($model,'id_prestador').'");
+
+        $("#ejemplar_1").empty();
+        $("#ejemplar_1").append(\'<option value="">...Seleccione...</option>\');
+        $("#ejemplar_2").empty();
+        $("#ejemplar_2").append(\'<option value="">...Seleccione...</option>\');
+        $("#ejemplar_3").empty();
+        $("#ejemplar_3").append(\'<option value="">...Seleccione...</option>\');
 
         select.change(function(){
             
@@ -297,12 +322,14 @@
                 alert("Seleccione un prestador");
                 $("#check-pass").hide(0500);
                 $("#pass_error").html("");
+                $("#'.CHtml::activeId($modelDatos, 'password').'").val("");
 
             }else{
 
                 //$("#btn-modal").click();
                 $("#check-pass").show(0500);
                 $("#pass_error").html("");
+                $("#'.CHtml::activeId($modelDatos, 'password').'").val("");
 
             }
         });

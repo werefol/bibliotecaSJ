@@ -65,7 +65,7 @@ class Ejemplares extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'id_material' => 'Id Material',
+			'id_material' => 'Material',
 			'ejemplar' => 'Ejemplar',
 			'observaciones' => 'Observaciones',
 			'borrado' => 'Borrado',

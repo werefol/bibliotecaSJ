@@ -240,23 +240,12 @@ class PrestamoController extends Controller
 				$matData['error'] = 0;
 
 				if ($mats->id_tipomat == 1 || $mats->id_tipomat == 4) {
-					
-					/*$matData['titulo'] = $mats->titulo;
-					$matData['autor'] = $mats->autor;
-					$matData['cota'] = $mats->cota;
-					$matData['anio'] = $mats->anio;
-					$matData['editorial'] = $mats->editorial;
-					$matData['edicion'] = $mats->edicion;
-					$matData['volumen'] = $mats->volumen;
-					$matData['tomo'] = $mats->tomo;
-					$matData['pais'] = $mats->pais;
-					$matData['subtitulo'] = $mats->subtitulo;
-					$matData['cantidad'] = $mats->cantidad;
-					$matData['tipomat'] = $mats->idTipomat->tipo;*/
 
-					$tbl = '<table class="table table-bordered">
+					$tbl = '<table class="table table-bordered table-striped table-condensed">
+								<tbody>
 							        <tr>
-							            <td><b>T&iacute;tulo:</b><br> <div id="titulo_1" class="materialData">'.$mats->titulo.'</div></td>				            
+							            <td colspan="2"><b>T&iacute;tulo:</b><br> <div id="titulo_1" class="materialData">'.$mats->titulo.'</div></td>
+							            <td colspan="2"></td>
 							        </tr>
 							        <tr>
 							            <td ><b>Cota:</b><br> '.$mats->cota.'</td>
@@ -275,13 +264,17 @@ class PrestamoController extends Controller
 							            <td colspan="2"><b>Tipo de Material:</b><br> '.$mats->idTipomat->tipo.'</td>
 							            <td><b>Cantidad del material:</b><br> '.$mats->cantidad.'</td>
 							        </tr>
-							    </table>';
+							    </tbody>
+							</table>';
+
+					$modeloEjemplar = Ejemplares::model()->findAll('t.id_material=:material', array(':material'=>$mats->id));
+					echo "<pre>";print_r($modeloEjemplar);exit;
 				
 					$matData['tabla'] = $tbl;
 
 				}elseif ($mats->id_tipomat == 2) {
 
-					$tbl = '<table class="table table-bordered">
+					$tbl = '<table class="table table-bordered table-striped">
 							        <tr>
 							            <td><b>T&iacute;tulo</b><br> '.$mats->titulo.'</td>				            
 							        </tr>
@@ -305,7 +298,7 @@ class PrestamoController extends Controller
 					$matData['tabla'] = $tbl;
 
 				}elseif ($mats->id_tipomat == 3 || $mats->id_tipomat == 5) {
-					$tbl = '<table class="table table-bordered">
+					$tbl = '<table class="table table-bordered table-striped">
 							        <tr>
 							            <td><b>T&iacute;tulo</b><br> '.$mats->titulo.'</td>				            
 							        </tr>
