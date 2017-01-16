@@ -25,6 +25,7 @@ $this->menu=array(
 		'id_receptor',
 		'fecha_prestamo',
 		'fecha_entrega',
+		'cant_material',
 		'renovacion',
 		'borrado',
 		'id_status',

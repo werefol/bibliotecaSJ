@@ -268,7 +268,7 @@ class PrestamoController extends Controller
 							    </tbody>
 							</table>';
 
-					$modeloEjemplar = Ejemplares::model()->findAll('id_material=:material AND borrado=false AND id_status=1', array(':material'=>$mats->id));
+					$modeloEjemplar = Ejemplares::model()->findAll('id_material=:material AND borrado=false AND id_status=1 ORDER BY ejemplar asc', array(':material'=>$mats->id));
 
 					//echo "<pre>";print_r($modeloEjemplar);print_r($mats->id);exit;
 
@@ -380,8 +380,8 @@ class PrestamoController extends Controller
 
 	public function actionPrestamo()
 	{
-		$model=new Prestamo;
-		$modelEjemplar = new Ejemplares;
+		$model=new Prestamo('prestamo');
+		$modelEjemplar = new Ejemplares('prestamo');
 		$materiales = new Materiales;
 		$tMaterial = new TipoMaterial;
 		$modelDatos = new Datos;
@@ -393,70 +393,99 @@ class PrestamoController extends Controller
 		{
 			$model->attributes=$_POST['Prestamo'];
 
-			$solicitante = Datos::model()->find('cedula=:cedula AND borrado=false AND id_tipo=2', array(':cedula'=>$_POST['Prestamo']['cedula']));
+			$operacion = Yii::app()->db->beginTransaction();
 
-			echo "<pre>";print_r($_POST);echo"\n";print_r($solicitante);echo"\n";print_r($model);exit;
+			try {
 
-			if (!empty($solicitante)) {
-				
-				$model->$id_solicitante = $solicitante->id;
-				$model->id_status = 1;
-				
-				if($model->save()){
+				$solicitante = Datos::model()->find('cedula=:cedula AND borrado=false AND id_tipo=2', array(':cedula'=>$_POST['Prestamo']['cedula']));
 
-					$indice = 1;
-					foreach ($_POST['mat'.$indice] as $key => $value) {
+				echo "<pre>";print_r($_POST);echo"\n";print_r($solicitante);echo"\n";exit;
 
-						if ($value != "") {
-							
-							$mat = Materiales::model()->find('cota=:cota AND borrado=false AND cantidad>0', array(':cota'=>$value));
+				if (!empty($solicitante)) {
+					
+					$model->id_solicitante = $solicitante->id;
+					$model->id_status = 1;
+					$model->id_tipoprestamo = $_POST['tprestamo'];
+					
+					//echo "<pre>";print_r($model);echo"\n";print_r($solicitante);echo"\n";print_r($_POST);exit;
 
-							if (!empty($mat)) {
-								
-								$mat->cantidad = $mat->cantidad - 1;
+					if($model->save()){
 
-								if ($mat->update()) {
+						if (!empty($_POST['materiales']) && !empty($_POST['ejemplares'])) {						
+
+							$materls = $_POST['materiales'];
+							$ejem = $_POST['ejemplares'];
+
+							foreach ($materls as $key => $value) {
+
+								if (!empty($value)) {
 									
-									foreach ($_POST['ejemplar_'.$indice] as $key => $valor) {
+									$mat = Materiales::model()->find('cota=:cota AND borrado=false AND cantidad>0', array(':cota'=>$value));
+
+									if (!empty($mat)) {
 										
-										if ($valor != "") {
+										$mat->cantidad = $mat->cantidad - 1;
+
+										if ($mat->update()) {
 											
-											$ejmplr = Ejemplares::model()->find('id=:id AND borrado=false AND id_status=1', array(':id'=>$valor));
-
-											if (!empty($ejmplr)) {
-												
-												$ejmplr->id_status = 2;
-
-												if ($ejmplr->update()) {
+											foreach ($ejem as $key => $valor) {
 													
-													$indice++;
+												if (!empty($valor)) {
+														
+													$ejmplr = Ejemplares::model()->find('id=:id AND borrado=false AND id_status=1', array(':id'=>$valor));
+
+													if (!empty($ejmplr)) {
+															
+															$ejmplr->id_status = 2;
+
+															$ejmplr->update();
+													}
 												}
-											}
+											}											
+										
+										}else{
+
+											throw new Exception("Error en actualización de datos", 5);
 										}
+									
+									}else{
+
+										throw new Exception("No quedan ejemplares disponible del material!", 4);
 									}
 								}
-							
-							}else{
-
-								Yii::app()->user->setFlash('error', 'Ya no quedan ejemplares de este libro!');
-								$this->refresh();
 							}
-						}
-					}
 
-					$this->redirect(array('view','id'=>$model->id));
+							$operacion->commit();
+							$this->redirect(array('view','id'=>$model->id));
+						
+						}else{
+
+							throw new Exception("Error en envío de datos!", 3);
+						}
+					
+					}else{
+
+						throw new Exception("Ha ocurrido un error en el guardado de datos!", 2);
+					}
+				
+				}else{
+
+					throw new Exception("Solicitante no encontrado!", 1);
+					
 				}
 			
-			}else{
+			} catch (Exception $e) {
 
-				Yii::app()->user->setFlash('error', 'Solicitante no encontrado!');
+
+				$operacion->rollback();
+				Yii::app()->user->setFlash('error', $e->getMessage());
 				$this->refresh();
 			}
 		}
 
 		$this->render('formulario_prestamo',array(
 			'model'=>$model,
-			'modelEjemplar'=>$modelEjemplar,
+			'ejemplares'=>$modelEjemplar,
 			'materiales' => $materiales,
 			'tMaterial' => $tMaterial,
 			'modelDatos' => $modelDatos,

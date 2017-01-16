@@ -1,3 +1,5 @@
+<h1><center><b>Realizar Prestamo</b></center></h1>
+<br>
 <?php
 	$form=$this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 		'id'=>'prestamo-form',
@@ -10,6 +12,13 @@
         ),
 		));
 ?>
+
+<?php if(Yii::app()->user->hasFlash('error')):?>
+            <div class="alert alert-error">
+                <i class="icon-remove"></i> <?php echo Yii::app()->user->getFlash('error'); ?>
+            </div>
+<?php endif; ?>
+<br>
 <div id="form">
     <fieldset>
         <legend style=" font-size: 17px;"><b>Datos del solicitante</b></legend>
@@ -62,7 +71,7 @@
     <br>
         <div id="cant_materiales" class="row" align="center">
             <div id="contenedor-cantidad" class="span5 offset4">
-                <?php echo CHtml::label('Cantidad de materiales(max 3).', CHtml::activeId($model, 'cant_material')); ?>
+                <?php echo $form->labelEx($model,'cant_material'); ?>
                 <?php echo $form->dropDownList($model, 'cant_material', array('1'=>'1',
                                                                                 '2'=>'2',
                                                                                 '3'=>'3'),
@@ -70,6 +79,7 @@
                                                                             'class'=>'input-medium')
                                                 );
                 ?>
+                <?php echo $form->error($model,'cant_material'); ?>
             </div>
         </div>
         <br><br>
@@ -81,11 +91,11 @@
                 <div class="span11">
                     <div><b><?php echo CHtml::label('Cota','mat1'); ?></b></div>
                     <div>
-                        <?php echo CHtml::textField('mat1','',array('maxlength'=>'10', 'onchange'=>'buscarMaterial(1)')); ?>
+                        <?php echo $form->textField($materiales,'cota',array('maxlength'=>'10', 'onchange'=>'buscarMaterial(1)', 'name'=>'materiales[]', 'id'=>'mat1')); ?>
                     </div>
                     <div id="ejemplar1">
                         <?php echo CHtml::label('Ejemplar(es)','ejemplar_1'); ?>
-                        <?php echo CHtml::dropDownList('ejemplar_1', '', CHtml::listData(Ejemplares::model()->findAll(),'id', 'ejemplar')); ?>         
+                        <?php echo $form->dropDownList($ejemplares, 'ejemplar', CHtml::listData(Ejemplares::model()->findAll(array('order'=>'ejemplar asc')),'id', 'ejemplar'), array('name'=>'ejemplares[]', 'id'=>'ejemplar_1')); ?>         
                     </div>
                 <div id="mensajesSistema1"  class="materialData1"></div>
                 <br>                    
@@ -101,11 +111,11 @@
                 <div class="span11">
                     <div><b><?php echo CHtml::label('Cota','mat2'); ?></b></div>
                     <div>
-                        <?php echo CHtml::textField('mat2','',array('maxlength'=>'10', 'onchange'=>'buscarMaterial(2)')); ?>
+                        <?php echo $form->textField($materiales,'cota',array('maxlength'=>'10', 'onchange'=>'buscarMaterial(2)', 'name'=>'materiales[]', 'id'=>'mat2')); ?>
                     </div>
                     <div id="ejemplar2">
                         <?php echo CHtml::label('Ejemplar(es)','ejemplar_2'); ?>
-                        <?php echo CHtml::dropDownList('ejemplar_2', '', CHtml::listData(Ejemplares::model()->findAll(),'id', 'ejemplar')); ?>         
+                        <?php echo $form->dropDownList($ejemplares, 'ejemplar', CHtml::listData(Ejemplares::model()->findAll(array('order'=>'ejemplar asc')),'id', 'ejemplar'), array('name'=>'ejemplares[]', 'id'=>'ejemplar_2')); ?>         
                     </div>
                 <div id="mensajesSistema2"  class="materialData2"></div>
                 <br>                    
@@ -121,11 +131,11 @@
                 <div class="span11">
                     <div><b><?php echo CHtml::label('Cota','mat3'); ?></b></div>
                     <div>
-                        <?php echo CHtml::textField('mat3','',array('maxlength'=>'10', 'onchange'=>'buscarMaterial(3)')); ?>
+                        <?php echo $form->textField($materiales,'cota',array('maxlength'=>'10', 'onchange'=>'buscarMaterial(3)', 'name'=>'materiales[]', 'id'=>'mat3')); ?>
                     </div>
                     <div id="ejemplar3">
                         <?php echo CHtml::label('Ejemplar(es)','ejemplar_3'); ?>
-                        <?php echo CHtml::dropDownList('ejemplar_3', '', CHtml::listData(Ejemplares::model()->findAll(),'id', 'ejemplar')); ?>         
+                        <?php echo $form->dropDownList($ejemplares, 'ejemplar', CHtml::listData(Ejemplares::model()->findAll(array('order'=>'ejemplar asc')),'id', 'ejemplar'), array('name'=>'ejemplares[]', 'id'=>'ejemplar_3')); ?>         
                     </div>
                 <div id="mensajesSistema3"  class="materialData3"></div>
                 <br>                    
@@ -254,6 +264,9 @@
 
         $("#check-pass").hide();
         $("#btn-modal").hide();
+
+        $("#'.CHtml::activeId($model,'cedula').'").focus();
+
         var cantidadM = $("#'.CHtml::activeId($model, 'cant_material').'");
         var prestador = $("#'.CHtml::activeId($model,'id_prestador').'");
 
@@ -375,8 +388,7 @@
                                                          
                                         }else{
                                             $("#mensajesSistem").html(data.msg_error);
-                                            $("#cant_materiales").hide(0500);
-                                            select.val("");
+                                            limpiarFormulario();
 
                                         }
                                     }
