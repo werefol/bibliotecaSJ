@@ -61,7 +61,7 @@ class Email
                     echo "<font style='font-size: 14px;color: #990000'> No se pudo enviar el correo</font><br/>";
                 }
                 else{
-		    echo "<font style='font-size: 14px;color: #2e8b57'> El correo se ha enviado satisfactoriamente a: <strong>$correo</strong></font><br/><br/>";
+		    echo "<font style='font-size: 14px;color: #2e8b57'> El correo se haa enviado satisfactoriamente a: <strong>$correo</strong></font><br/><br/>";
                 }
 	}
 
