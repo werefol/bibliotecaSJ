@@ -49,6 +49,7 @@ class Materiales extends CActiveRecord
 			array('titulo, autor, cota, tutor, mencion', 'required', 'on'=>'reg_tesis'),
 			array('titulo, cota', 'required', 'on'=>'reg_dicc'),
 			array('titulo, cota, issn, deposito_legal', 'required', 'on'=>'reg_revista'),
+			array('cota', 'required', 'on'=>'prestamos', 'message'=>'Debe introducir la cota del material para realizar la búsqueda!'),
 			array('anio, volumen, tomo, id_tipomat, deposito_legal, cantidad', 'numerical', 'integerOnly'=>true),
 			array('cota, autor, editorial, edicion, tutor, titulo, pais, subtitulo, issn, mencion, borrado, fecha_registro', 'safe'),
 			// The following rule is used by search().

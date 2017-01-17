@@ -46,7 +46,7 @@ class Prestamo extends CActiveRecord
 		return array(
 			array('id_prestador, id_solicitante, id_tipoprestamo, id_receptor, id_status, cant_material', 'numerical', 'integerOnly'=>true),
 			array('cedula', 'required', 'on'=>'prestamo', 'message'=>'Debe introducir una cédula para realizar un prestamo!'),
-			array('cant_material, id_prestador', 'required', 'on'=>'prestamo', 'message'=>'Tiene que escoger {attribute} para proseguir con el prestamo!'),
+			array('cant_material, id_prestador, fecha_entrega', 'required', 'on'=>'prestamo', 'message'=>'Tiene que escoger {attribute} para proseguir con el prestamo!'),
 			array('fecha_prestamo, fecha_entrega, renovacion, borrado, cant_material', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.

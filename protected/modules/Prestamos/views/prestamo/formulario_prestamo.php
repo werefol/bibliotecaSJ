@@ -1,4 +1,5 @@
 <h1><center><b>Realizar Prestamo</b></center></h1>
+
 <br>
 <?php
 	$form=$this->beginWidget('bootstrap.widgets.TbActiveForm', array(
@@ -12,6 +13,10 @@
         ),
 		));
 ?>
+
+<div class="alert alert-info"><i class="icon-info-sign"></i> Los campos marcados con <span class="required">*</span> son obligatorios.</div>
+
+<?php echo $form->errorSummary($model); ?>
 
 <?php if(Yii::app()->user->hasFlash('error')):?>
             <div class="alert alert-error">
@@ -69,8 +74,8 @@
         </table>
     </fieldset>
     <br>
-        <div id="cant_materiales" class="row" align="center">
-            <div id="contenedor-cantidad" class="span5 offset4">
+        <div id="cant_materiales" class="row-fluid" align="center">
+            <div id="contenedor-cantidad">
                 <?php echo $form->labelEx($model,'cant_material'); ?>
                 <?php echo $form->dropDownList($model, 'cant_material', array('1'=>'1',
                                                                                 '2'=>'2',
@@ -86,21 +91,23 @@
     <div id="materiales" class="container-fluid"><br>
 
         <div id="material_1" class="row-fluid" align="center">
-            <fieldset class="mtrls"><!--Datos del Material1-->
+            <fieldset class="span12 mtrls"><!--Datos del Material1-->
                 <legend class="span12 mtrs" style=" font-size: 17px;"><b>Datos del Material</b></legend>
-                <div class="span11">
-                    <div><b><?php echo CHtml::label('Cota','mat1'); ?></b></div>
+                
+                    <div><?php echo $form->labelEx($materiales,'cota', array('for'=>'mat1')); ?></div>
                     <div>
-                        <?php echo $form->textField($materiales,'cota',array('maxlength'=>'10', 'onchange'=>'buscarMaterial(1)', 'name'=>'materiales[]', 'id'=>'mat1')); ?>
+                        <?php echo $form->textField($materiales,'cota',array('maxlength'=>'10', 'onchange'=>'buscarMaterial(1)', 'name'=>'Materiales[]', 'id'=>'mat1')); ?>
+                        <?php echo $form->error($materiales,'cota'); ?>
                     </div>
                     <div id="ejemplar1">
-                        <?php echo CHtml::label('Ejemplar(es)','ejemplar_1'); ?>
-                        <?php echo $form->dropDownList($ejemplares, 'ejemplar', CHtml::listData(Ejemplares::model()->findAll(array('order'=>'ejemplar asc')),'id', 'ejemplar'), array('name'=>'ejemplares[]', 'id'=>'ejemplar_1')); ?>         
+                        <?php echo $form->labelEx($ejemplares,'ejemplar'); ?>
+                        <?php echo $form->dropDownList($ejemplares, 'ejemplar', CHtml::listData(Ejemplares::model()->findAll(array('order'=>'ejemplar asc')),'id', 'ejemplar'), array('name'=>'ejemplares[]', 'id'=>'ejemplar_1')); ?>
+                        <?php echo $form->error($ejemplares,'ejemplar'); ?>
                     </div>
-                <div id="mensajesSistema1"  class="materialData1"></div>
-                <br>                    
-                <div id="tabla-mat1" class="span12"></div>
-                </div>
+                    <div id="mensajesSistema1"  class="materialData1"></div>
+                    <br>                    
+                    <div id="tabla-mat1" class="span9 offset1"></div>
+                
             </fieldset><!--fin datos del material1-->
         </div>
         <br>
@@ -108,10 +115,10 @@
         <div id="material_2" class="row-fluid" align="center">
             <fieldset class="mtrls"><!--Datos del Material2-->
                 <legend class="span12 mtrs" style=" font-size: 17px;"><b>Datos del Material</b></legend>
-                <div class="span11">
-                    <div><b><?php echo CHtml::label('Cota','mat2'); ?></b></div>
+                <div>
+                    <div><?php echo $form->labelEx($materiales,'cota', array('for'=>'mat2')); ?></div>
                     <div>
-                        <?php echo $form->textField($materiales,'cota',array('maxlength'=>'10', 'onchange'=>'buscarMaterial(2)', 'name'=>'materiales[]', 'id'=>'mat2')); ?>
+                        <?php echo $form->textField($materiales,'cota',array('maxlength'=>'10', 'onchange'=>'buscarMaterial(2)', 'name'=>'Materiales[]', 'id'=>'mat2')); ?>
                     </div>
                     <div id="ejemplar2">
                         <?php echo CHtml::label('Ejemplar(es)','ejemplar_2'); ?>
@@ -119,7 +126,7 @@
                     </div>
                 <div id="mensajesSistema2"  class="materialData2"></div>
                 <br>                    
-                <div id="tabla-mat2" class="span12"></div>
+                <div id="tabla-mat2" class="span9 offset1"></div>
                 </div>
             </fieldset><!--fin datos del material2-->
         </div>
@@ -128,10 +135,10 @@
         <div id="material_3" class="row-fluid" align="center">
             <fieldset class="mtrls"><!--Datos del Material3-->
                 <legend class="span12 mtrs" style=" font-size: 17px;"><b>Datos del Material</b></legend>
-                <div class="span11">
-                    <div><b><?php echo CHtml::label('Cota','mat3'); ?></b></div>
+                <div>
+                    <div><?php echo $form->labelEx($materiales,'cota', array('for'=>'mat3')); ?></div>
                     <div>
-                        <?php echo $form->textField($materiales,'cota',array('maxlength'=>'10', 'onchange'=>'buscarMaterial(3)', 'name'=>'materiales[]', 'id'=>'mat3')); ?>
+                        <?php echo $form->textField($materiales,'cota',array('maxlength'=>'10', 'onchange'=>'buscarMaterial(3)', 'name'=>'Materiales[]', 'id'=>'mat3')); ?>
                     </div>
                     <div id="ejemplar3">
                         <?php echo CHtml::label('Ejemplar(es)','ejemplar_3'); ?>
@@ -139,15 +146,15 @@
                     </div>
                 <div id="mensajesSistema3"  class="materialData3"></div>
                 <br>                    
-                <div id="tabla-mat3" class="span12"></div>
+                <div id="tabla-mat3" class="span9 offset1"></div>
                 </div>
             </fieldset><!--fin datos del material3-->
         </div>
         <br>
 
         <div id="cant_materiales" class="row-fluid" align="center">
-            <legend class="span12 mtrs" style=" font-size: 17px;"><b>Prestador</b></legend>
-            <div class="span11">
+            <legend class="span12 mtrs" style=" font-size: 17px;"><b>Usuarios</b></legend>
+            <div>
             <?php 
                 $datos = Datos::model()->findAll('id_tipo=1 and borrado=FALSE');
                 $data = array();
@@ -155,13 +162,15 @@
                 foreach ($datos as $dato)
                     $data[$dato->id] = $dato->nombres . ' '. $dato->apellidos;
             ?>
+            <?php echo $form->labelEx($model, 'id_prestador'); ?>
             <?php echo $form->dropDownList($model, 'id_prestador', $data, array('prompt'=>'Seleccione',
                                                                                 'class'=>'input-medium')
                                             );
             ?>
+            <?php echo $form->error($model,'id_prestador'); ?>
             </div>
-            <div id="pass_error" class="span12"></div>
-            <div id="check-pass" class="span11 input-append">
+            <div id="pass_error"></div>
+            <div id="check-pass" class="input-append">
                 <?php echo $form->passwordField($modelDatos, 'password'); ?>
                 <?php $this->widget('bootstrap.widgets.TbButton', array(
                     'label'=>'Verificar',
@@ -222,6 +231,7 @@
                                                                 ),
                                                             ));
                     ?>
+                    <?php echo $form->error($model, 'fecha_entrega'); ?>
                 </div>
         </div>
         <br><br>
@@ -229,11 +239,24 @@
             <?php $this->widget('bootstrap.widgets.TbButton',
                                 array(
                                     'buttonType' => 'submit',
-                                    'type' => 'info',
-                                    'icon'=>'icon-ok icon-white',
+                                    'type' => 'success',
+                                    'icon'=>'icon-ok',
                                     'label' => 'Guardar Prestamo',
                                     'htmlOptions' => array(
                                                         'id' => 'btn-guardar',
+                                                    ),
+                                )
+                        );
+            ?>
+
+            <?php $this->widget('bootstrap.widgets.TbButton',
+                                array(
+                                    'type' => 'danger',
+                                    'icon'=>'icon-remove',
+                                    'label' => 'Cancelar',
+                                    'url' => 'index.php?r=site/index',
+                                    'htmlOptions' => array(
+                                                        'id' => 'btn-cancelar',
                                                     ),
                                 )
                         );
@@ -388,7 +411,7 @@
                                                          
                                         }else{
                                             $("#mensajesSistem").html(data.msg_error);
-                                            limpiarFormulario();
+                                            limpiar();
 
                                         }
                                     }
@@ -453,53 +476,60 @@
 
     function buscarMaterial(num){                             
             
-            var material = $("#mat"+num).val();
-            if (material && material!=="") {
+        var material = $("#mat"+num).val();
+        if (material && material!=="") {
                 
-                $.ajax({
-                        url:"'.CController::createUrl('DatosMaterial').'",
-                        cache: false,
-                        type: "POST",
-                        dataType: "json",
-                        data: ({material:material}),
-                        beforeSend: function(xkr){
-                                        $("#mensajesSistema"+num).html("");
-                                        $(".materialData"+num).html("");
-                                        $("#ejemplar_"+num).html("");
-                                        $("#ejemplar_"+num).append(\'<option value="">...Seleccione...</option>\');
+            $.ajax({
+                    url:"'.CController::createUrl('DatosMaterial').'",
+                    cache: false,
+                    type: "POST",
+                    dataType: "json",
+                    data: ({material:material}),
+                    beforeSend: function(xkr){
+                                    $("#mensajesSistema"+num).html("");
+                                    $(".materialData"+num).html("");
+                                    $("#ejemplar_"+num).html("");
+                                    $("#ejemplar_"+num).append(\'<option value="">...Seleccione...</option>\');
 
-                                    },
+                                },
 
-                        success: function(data){
+                    success: function(data){
                                         
-                                    if(data.error==0) {                                            
+                                if(data.error==0) {                                            
 
-                                        $("#tabla-mat"+num).html(data.tabla);
-                                        $("#tabla-mat"+num).show(0500);
+                                    $("#tabla-mat"+num).html(data.tabla);
+                                    $("#tabla-mat"+num).show(0500);
 
-                                        if (data.ejemplares !== "") {
+                                    if (data.ejemplares !== "") {
                                             
-                                            $("#ejemplar_"+num).append(data.ejemplares);
-                                            $("#ejemplar"+num).show(0500);
-                                            $("#mensajesSistema"+num).html("");
+                                        $("#ejemplar_"+num).append(data.ejemplares);
+                                        $("#ejemplar"+num).show(0500);
+                                        $("#mensajesSistema"+num).html("");
                                         
-                                        }else{
-
-                                            $("#ejemplar_"+num).html("");
-                                            $("#ejemplar"+num).hide(0500);
-                                            $("#mensajesSistema"+num).html(data.msg_error);
-                                        }
-                                                         
                                     }else{
-                                        $("#mensajesSistema"+num).html(data.msg_error);
-                                        $("#tabla-mat"+num).hide(0500);
+
                                         $("#ejemplar_"+num).html("");
                                         $("#ejemplar"+num).hide(0500);
+                                        $("#mensajesSistema"+num).html(data.msg_error);
                                     }
+                                                         
+                                }else{
+                                    $("#mensajesSistema"+num).html(data.msg_error);
+                                    $("#tabla-mat"+num).hide(0500);
+                                    $("#ejemplar_"+num).html("");
+                                    $("#ejemplar"+num).hide(0500);
                                 }
-
-                });
-            }
+                            }
+            });
+        
+        }else{
+                
+            $("#ejemplar_"+num).html("");
+            $("#ejemplar"+num).hide(0500);
+            $("#tabla-mat"+num).hide(0500);
+            $("#mensajesSistema"+num).html("<span class=\"help-inline error\">Introduzca una cota para buscar el material</span>");
+        
+        }
     }
 
     function limpiaryesconder(){
@@ -541,6 +571,24 @@
 
         $(".datosPersonales").html("");
         $("#mensajesSistem").html("");
+
+        $("#cant_materiales").hide(0500);
+        $("#materiales").hide(0500);
+
+        limpiaryesconder();
+
+        $("#'.CHtml::activeId($model, 'cant_material').' option:eq(0)").prop("selected", true);
+    }
+
+    function limpiar(){
+
+        $("#nombres_apellidos").html("");
+        $("#telefono").html("");
+        $("#correo").html("");
+        $("#interno").html("");
+        $("#semestre").html("");
+        $("#fecha_registro").html("");
+        $("#estado").html("");
 
         $("#cant_materiales").hide(0500);
         $("#materiales").hide(0500);

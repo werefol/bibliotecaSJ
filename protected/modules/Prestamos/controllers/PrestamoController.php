@@ -171,7 +171,7 @@ class PrestamoController extends Controller
 		$datosSol['error'] = 1;
 		$datosSol['msg_error'] = '';
 
-		if (isset($_POST['cedula']) && $_POST['cedula'] !=0 && is_numeric($_POST['cedula'])){
+		if (!empty($_POST['cedula']) && is_numeric($_POST['cedula'])){
 
 			$solicitante = Datos::model()->find('cedula=:cedula AND id_tipo=2 AND borrado=FALSE',array(':cedula'=>$_POST['cedula']));
 			//echo "<pre>";print_r($solicitante);exit;
@@ -197,7 +197,7 @@ class PrestamoController extends Controller
 		}else{
 
 			$datosSol['error'] = 1;
-			$datosSol['msg_error'] = '<span class="help-inline error">La cédula suministrada no se encuentra registrada.</span>';
+			$datosSol['msg_error'] = '<span class="help-inline error">Introduzca una cédula valida.</span>';
 		}
 
 		echo CJSON::encode($datosSol);
@@ -237,7 +237,7 @@ class PrestamoController extends Controller
 
 			//echo "1era condicion";print_r($_POST);exit;
 			if (!empty($mats)) {
-
+				
 				$matData['error'] = 0;
 
 				if ($mats->id_tipomat == 1 || $mats->id_tipomat == 4) {
@@ -245,8 +245,8 @@ class PrestamoController extends Controller
 					$tbl = '<table class="table table-bordered table-striped table-condensed">
 								<tbody>
 							        <tr>
-							            <td colspan="2"><b>T&iacute;tulo:</b><br> <div id="titulo_1" class="materialData">'.$mats->titulo.'</div></td>
-							            <td colspan="2"></td>
+							            <td colspan="3"><b>T&iacute;tulo:</b><br> <div id="titulo_1" class="materialData">'.$mats->titulo.'</div></td>
+							            <td></td>
 							        </tr>
 							        <tr>
 							            <td ><b>Cota:</b><br> '.$mats->cota.'</td>
@@ -261,9 +261,9 @@ class PrestamoController extends Controller
 							            <td><b>Volumen:</b><br> '.$mats->volumen.'</td>
 							        </tr>
 							        <tr>
-							            <td><b>Subtitulo:</b><br> '.$mats->subtitulo.'</td>
-							            <td colspan="2"><b>Tipo de Material:</b><br> '.$mats->idTipomat->tipo.'</td>
-							            <td><b>Cantidad del material:</b><br> '.$mats->cantidad.'</td>
+							            <td><b>Tipo:</b><br> '.$mats->idTipomat->tipo.'</td>
+							            <td><b>Cantidad:</b><br> '.$mats->cantidad.'</td>
+							            <td colspan="2"><b>Subtitulo:</b><br> '.$mats->subtitulo.'</td>
 							        </tr>
 							    </tbody>
 							</table>';
@@ -381,8 +381,8 @@ class PrestamoController extends Controller
 	public function actionPrestamo()
 	{
 		$model=new Prestamo('prestamo');
-		$modelEjemplar = new Ejemplares('prestamo');
-		$materiales = new Materiales;
+		$modelEjemplar = new Ejemplares('prestar');
+		$materiales = new Materiales('prestamos');
 		$tMaterial = new TipoMaterial;
 		$modelDatos = new Datos;
 
@@ -399,7 +399,7 @@ class PrestamoController extends Controller
 
 				$solicitante = Datos::model()->find('cedula=:cedula AND borrado=false AND id_tipo=2', array(':cedula'=>$_POST['Prestamo']['cedula']));
 
-				echo "<pre>";print_r($_POST);echo"\n";print_r($solicitante);echo"\n";exit;
+				//echo "<pre>";print_r($_POST);echo"\n";print_r($solicitante);echo"\n";exit;
 
 				if (!empty($solicitante)) {
 					
@@ -409,63 +409,72 @@ class PrestamoController extends Controller
 					
 					//echo "<pre>";print_r($model);echo"\n";print_r($solicitante);echo"\n";print_r($_POST);exit;
 
-					if($model->save()){
+					$validar = $model->validate();
 
-						if (!empty($_POST['materiales']) && !empty($_POST['ejemplares'])) {						
+					if ($validar) {
+						
+						if($model->save(false)){
 
-							$materls = $_POST['materiales'];
-							$ejem = $_POST['ejemplares'];
+							if (!empty($_POST['Materiales']) && !empty($_POST['ejemplares'])) {
 
-							foreach ($materls as $key => $value) {
+								$materls = $_POST['Materiales'];
+								$ejem = $_POST['ejemplares'];
 
-								if (!empty($value)) {
-									
-									$mat = Materiales::model()->find('cota=:cota AND borrado=false AND cantidad>0', array(':cota'=>$value));
+								foreach ($materls as $key => $value) {
 
-									if (!empty($mat)) {
+									if (!empty($value)) {
 										
-										$mat->cantidad = $mat->cantidad - 1;
+										$mat = Materiales::model()->find('cota=:cota AND borrado=false AND cantidad>0', array(':cota'=>$value));
 
-										if ($mat->update()) {
+										if (!empty($mat)) {
 											
-											foreach ($ejem as $key => $valor) {
-													
-												if (!empty($valor)) {
+											$mat->cantidad = $mat->cantidad - 1;
+
+											if ($mat->update()) {
+												
+												foreach ($ejem as $key => $valor) {
 														
-													$ejmplr = Ejemplares::model()->find('id=:id AND borrado=false AND id_status=1', array(':id'=>$valor));
-
-													if (!empty($ejmplr)) {
+													if (!empty($valor)) {
 															
-															$ejmplr->id_status = 2;
+														$ejmplr = Ejemplares::model()->find('id=:id AND borrado=false AND id_status=1', array(':id'=>$valor));
 
-															$ejmplr->update();
+														if (!empty($ejmplr)) {
+																
+																$ejmplr->id_status = 2;
+
+																$ejmplr->update();
+														}
 													}
-												}
-											}											
+												}											
+											
+											}else{
+
+												throw new Exception("Error en actualización de datos", 6);
+											}
 										
 										}else{
 
-											throw new Exception("Error en actualización de datos", 5);
+											throw new Exception("No quedan ejemplares disponible del material!", 5);
 										}
-									
-									}else{
-
-										throw new Exception("No quedan ejemplares disponible del material!", 4);
 									}
 								}
-							}
 
-							$operacion->commit();
-							$this->redirect(array('view','id'=>$model->id));
+								$operacion->commit();
+								$this->redirect(array('view','id'=>$model->id));
+							
+							}else{
+
+								throw new Exception("Error en envío de datos!", 4);
+							}
 						
 						}else{
 
-							throw new Exception("Error en envío de datos!", 3);
+							throw new Exception("Ha ocurrido un error en el guardado de datos!", 3);
 						}
 					
 					}else{
 
-						throw new Exception("Ha ocurrido un error en el guardado de datos!", 2);
+						throw new Exception("Error en la validación de datos!", 2);
 					}
 				
 				}else{
@@ -524,6 +533,11 @@ class PrestamoController extends Controller
 			}
 		}
 		echo CJSON::encode($clave);
+	}
+
+	public function actionCorreoAlerta($idsol){
+
+
 	}
 
 	/**

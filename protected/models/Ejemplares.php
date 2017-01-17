@@ -36,7 +36,7 @@ class Ejemplares extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('id_material', 'required'),
-			array('ejemplar', 'required', 'message'=>'Escoja un ejemplar', 'on'=>'prestamo'),
+			array('ejemplar', 'required', 'on'=>'prestar', 'message'=>'Escoja un ejemplar'),
 			array('id_material, id_status', 'numerical', 'integerOnly'=>true),
 			array('ejemplar, observaciones, borrado, fecha_registro', 'safe'),
 			// The following rule is used by search().

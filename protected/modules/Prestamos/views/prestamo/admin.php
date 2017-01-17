@@ -1,15 +1,3 @@
-<?php
-$this->breadcrumbs=array(
-	'Prestamos'=>array('index'),
-	'Manage',
-);
-
-$this->menu=array(
-	array('label'=>'List Prestamo','url'=>array('index')),
-	array('label'=>'Create Prestamo','url'=>array('create')),
-);
-?>
-
 <h1>Prestamos</h1>
 
 <?php $this->widget('bootstrap.widgets.TbGridView',array(
@@ -17,20 +5,68 @@ $this->menu=array(
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
-		'id_solicitante',
-		'id_prestador',
-		'id_receptor',
-		'id_tipoprestamo',
-		'cant_material',
-		'fecha_prestamo',
-		'id_status',
+		
+		array(
+            'name'=>'id_solicitante',
+            //'value'=>"\$data->id_asociado";
+            'value'=>'$data->idSolicitante->nombres',
+        ),
+
+        array(
+            'name'=>'id_prestador',
+            //'value'=>"\$data->id_asociado";
+            'value'=>'$data->idPrestador->nombres',
+        ),
+
+        array(
+            'name'=>'id_receptor',
+            //'value'=>"\$data->id_asociado";
+            'value'=>"(\$data->idReceptor == \"\")?'Prestamo Vigente':\$data->idSolicitante->nombres",
+        ),
+
+        array(
+            'name'=>'cant_material',
+            'value'=>'$data->cant_material',
+            'filter'=>array('1'=>1,'2'=>2, '3'=>3),
+        ),
+
+        array(
+            'name'=>'fecha_prestamo',
+            //'value'=>"\$data->id_asociado";
+            'value'=>'date("d-m-Y", strtotime($data->fecha_prestamo))',
+        ),
+
+        array(
+            'name'=>'fecha_entrega',
+            //'value'=>"\$data->id_asociado";
+            'value'=>'date("d-m-Y", strtotime($data->fecha_entrega))',
+        ),
+
+        array(
+            'name'=>'id_status',
+            //'value'=>"\$data->id_asociado";
+            'value'=>'$data->idStatus->status',
+            'filter'=>CHtml::listData(StatusPrestamo::model()->findAll(), 'id','status'),
+        ),
 		/*
 		'fecha_entrega',
 		'renovacion',
 		'borrado',
 		*/
 		array(
+			'header'=>'Acciones',
 			'class'=>'bootstrap.widgets.TbButtonColumn',
+			'htmlOptions'=>array('width'=>'80'),
+			'template'=>'{view} {mail-alerta} {update} {delete}',
+			'buttons' => array(
+
+							'mail-alerta' => array(
+						        'label'=>'Enviar correo de alerta',
+						        'icon' => 'icon-envelope',
+						        'visible'=>'($data->id_status == 3)?true:false',
+						        'url'=>"",
+					        ),
+						),
 		),
 	),
 )); ?>

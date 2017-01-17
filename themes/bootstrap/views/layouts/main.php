@@ -1,9 +1,9 @@
 <?php /* @var $this Controller */ ?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es" lang="es">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta name="language" content="en" />
+	<meta name="language" content="es" />
 
     <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/styles.css" />
 
@@ -45,8 +45,8 @@
 
 				array('label'=>'Prestamos',
 					'items'=>array(
-							array('label'=>'Realizar Préstamo', 'url'=>array('/Prestamos/prestamo/create')),
-							array('label'=>'Consultar Préstamo', 'url'=>'#'),
+							array('label'=>'Realizar Préstamo', 'url'=>array('/Prestamos/prestamo/Prestamo')),
+							array('label'=>'Consultar Préstamo', 'url'=>array('/Prestamos/prestamo/admin')),
 					),
 				),
 
