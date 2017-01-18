@@ -35,7 +35,7 @@ class PrestamoController extends Controller
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete', 'DatosSolicitante', 'DatosMaterial', 'Prestamo', 'VerificarPass'),
+				'actions'=>array('admin','delete', 'DatosSolicitante', 'DatosMaterial', 'Prestamo', 'VerificarPass', 'CorreoAlerta'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -537,7 +537,21 @@ class PrestamoController extends Controller
 
 	public function actionCorreoAlerta($idsol){
 
+		$sol_data = Datos::model()->findByPk($idsol);
 
+		if (!empty($sol_data)) {
+			
+			$datos_biblioteca = LibraryData::model()->find();
+
+			Email::enviarEmail(array('nombre'=>$sol_data->nombres.' '.$sol_data->apellidos,
+                                    'correo'=>$sol_data->correo,
+                                    'asunto'=>'Vencimiento de prestamo - '.$datos_biblioteca->library_name,
+                                    'mensaje'=>$this->renderPartial('correoAlerta',array(
+                                                    '$datos'=>$sol_data,
+                                                    'library_data'=>$datos_biblioteca,
+                                            ), true)
+                                         ));
+		}
 	}
 
 	/**

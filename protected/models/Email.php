@@ -26,6 +26,7 @@ class Email
 		$adjunto = (array_key_exists('adjunto',$parametros))?$parametros['adjunto']:'';
 
 		$config = Email::parametrosEmail('gmail');
+		$library_data =  LibraryData::model()->find();
 
 		if(!is_array($adjunto))
 			$adjuntos[]=$adjunto;
@@ -48,12 +49,12 @@ class Email
 		$mail->SMTPSecure = $config['SMTPSecure'];
 		$mail->Host = $config['host'];
 		$mail->Port = $config['port'];
-		$mail->Username = $library_data->email;
-		$mail->Password = $library_data->email_pass;
-		$mail->SetFrom($library_data->email, $library_data->name);
-        $mail->AddReplyTo($library_data->email, $library_data->name);
+		$mail->Username = $library_data->library_email;
+		$mail->Password = $library_data->library_mailpass;
+		$mail->SetFrom($library_data->email, $library_data->library_name);
+        $mail->AddReplyTo($library_data->library_email, $library_data->library_name);
 		$mail->Subject = $asunto;
-		$mail->AltBody = $library_data->name;
+		$mail->AltBody = $library_data->library_name;
 		$mail->MsgHTML($mensaje);
 		$mail->AddAddress($correo, $nombre);
                 $mail->CharSet = 'UTF-8';
@@ -66,6 +67,7 @@ class Email
 	}
 
 	public static function parametrosEmail($email){
+
 		$correos =  array(
 						'gmail'=>array(
 								'host'=>'smtp.gmail.com',
@@ -79,3 +81,44 @@ class Email
 	}
 
 }
+
+//		   $mail->ClearAddresses();
+//		   $mail->ClearAttachments();
+                /*
+                        $mail = new PHPMailer;
+                        //$mail->SMTPDebug = 3;                               // Enable verbose debug output
+                        $mail->isSMTP();                                      // Set mailer to use SMTP
+                        $mail->Host = $configuracion['host'];  // Specify main and backup SMTP servers
+                        $mail->SMTPAuth = true;                               // Enable SMTP authentication
+                        $mail->Username = $empresa->email_emp;                 // SMTP username
+                        $mail->Password = $empresa->email_clave;                           // SMTP password
+                        $mail->SMTPSecure = $configuracion['SMTPSecure'];                            // Enable TLS encryption, `ssl` also accepted
+                        $mail->Port = $configuracion['port'];                                    // TCP port to connect to
+
+                        $mail->setFrom($empresa->email_emp,  $empresa->razon_social);
+                        $mail->addAddress($correo, $nombre);     // Add a recipient
+                        //$mail->addAddress('ellen@example.com');               // Name is optional
+                        $mail->addReplyTo($empresa->email_emp,  $empresa->razon_social);
+                        //$mail->addCC('cc@example.com');
+                        //$mail->addBCC('bcc@example.com');
+                        //$mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
+                        //$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
+                        $mail->isHTML(true);                                  // Set email format to HTML
+
+                        $mail->Subject = $asunto;
+                        $mail->Body    = $mensaje;
+                        $mail->AltBody = $mensaje;
+                        $mail->SMTPOptions = array(
+                        'ssl' => array(
+                            'verify_peer' => false,
+                            'verify_peer_name' => false,
+                            'allow_self_signed' => true
+                        ));
+                        if(!$mail->send()) {
+                            echo 'Message could not be sent.';
+                            echo 'Mailer Error: ' . $mail->ErrorInfo;
+                        } else {
+                            echo 'Message has been sent';
+                        }
+
+*/

@@ -1103,3 +1103,46 @@ GRANT ALL ON SCHEMA public TO PUBLIC;
 -- PostgreSQL database dump complete
 --
 
+
+###################################
+###################################
+###################################
+###################################
+###################################
+###################################
+
+/*
+Cambios 18/01/2017
+Tabla library_data
+*/
+
+CREATE TABLE library_data
+(
+  id serial NOT NULL,
+  library_name text,
+  library_address text,
+  library_manager text,
+  library_email text,
+  library_mailpass text,
+  library_isfrom text,
+  CONSTRAINT library_data_pkey PRIMARY KEY (id)
+);
+
+CREATE SEQUENCE library_data_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+ALTER TABLE library_data OWNER TO postgres;
+
+ALTER TABLE library_data
+    ADD CONSTRAINT library_data_pkey PRIMARY KEY (id);
+
+ALTER TABLE library_data_id_seq OWNER TO postgres;
+
+ALTER SEQUENCE library_data_id_seq OWNED BY library_data.id;
+
+ALTER TABLE library_data ALTER COLUMN id SET DEFAULT nextval('library_data_id_seq'::regclass);
+

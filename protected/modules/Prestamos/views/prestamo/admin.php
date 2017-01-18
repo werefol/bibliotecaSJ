@@ -64,7 +64,7 @@
 						        'label'=>'Enviar correo de alerta',
 						        'icon' => 'icon-envelope',
 						        'visible'=>'($data->id_status == 3)?true:false',
-						        'url'=>"",
+						        'url'=>'CController::createUrl("CorreoAlerta")',
 					        ),
 						),
 		),

@@ -88,180 +88,191 @@
             </div>
         </div>
         <br><br>
-    <div id="materiales" class="container-fluid"><br>
+    <div id="err_cotas"></div>
+    <div id="contenedor-prestamo" class="container-fluid"><br>
+        <div id="materiales">
+            <div id="material_1" class="row-fluid" align="center">
+                <fieldset class="span12 mtrls"><!--Datos del Material1-->
+                    <legend class="span12 mtrs" style=" font-size: 17px;"><b>Datos del Material</b></legend>
+                    
+                        <div><?php echo $form->labelEx($materiales,'cota', array('for'=>'mat1')); ?></div>
+                        <div>
+                            <?php echo $form->textField($materiales,'cota',array('maxlength'=>'10', 'onchange'=>'buscarMaterial(1)', 'name'=>'Materiales[]', 'id'=>'mat1')); ?>
+                            <?php echo $form->error($materiales,'cota'); ?>
+                        </div>
+                        <div id="ejemplar1">
+                            <?php echo CHtml::label('Ejemplar(es)','ejemplar_1'); ?>
+                            <?php echo $form->dropDownList($ejemplares, 'ejemplar', CHtml::listData(Ejemplares::model()->findAll(array('order'=>'ejemplar asc')),'id', 'ejemplar'), array('name'=>'ejemplares[]', 'id'=>'ejemplar_1')); ?>
+                            <?php echo $form->error($ejemplares,'ejemplar'); ?>
+                        </div>
+                        <div id="mensajesSistema1"  class="materialData1"></div>
+                        <br>                    
+                        <div id="tabla-mat1" class="span9 offset1"></div>
+                    
+                </fieldset>
+            </div><!--fin datos del material1-->
 
-        <div id="material_1" class="row-fluid" align="center">
-            <fieldset class="span12 mtrls"><!--Datos del Material1-->
-                <legend class="span12 mtrs" style=" font-size: 17px;"><b>Datos del Material</b></legend>
-                
-                    <div><?php echo $form->labelEx($materiales,'cota', array('for'=>'mat1')); ?></div>
+            <br>
+
+            <div id="material_2" class="row-fluid" align="center">
+                <fieldset class="mtrls"><!--Datos del Material2-->
+                    <legend class="span12 mtrs" style=" font-size: 17px;"><b>Datos del Material</b></legend>
                     <div>
-                        <?php echo $form->textField($materiales,'cota',array('maxlength'=>'10', 'onchange'=>'buscarMaterial(1)', 'name'=>'Materiales[]', 'id'=>'mat1')); ?>
-                        <?php echo $form->error($materiales,'cota'); ?>
-                    </div>
-                    <div id="ejemplar1">
-                        <?php echo $form->labelEx($ejemplares,'ejemplar'); ?>
-                        <?php echo $form->dropDownList($ejemplares, 'ejemplar', CHtml::listData(Ejemplares::model()->findAll(array('order'=>'ejemplar asc')),'id', 'ejemplar'), array('name'=>'ejemplares[]', 'id'=>'ejemplar_1')); ?>
-                        <?php echo $form->error($ejemplares,'ejemplar'); ?>
-                    </div>
-                    <div id="mensajesSistema1"  class="materialData1"></div>
+                        <div><?php echo $form->labelEx($materiales,'cota', array('for'=>'mat2')); ?></div>
+                        <div>
+                            <?php echo $form->textField($materiales,'cota',array('maxlength'=>'10', 'onchange'=>'buscarMaterial(2)', 'name'=>'Materiales[]', 'id'=>'mat2')); ?>
+                        </div>
+                        <div id="ejemplar2">
+                            <?php echo CHtml::label('Ejemplar(es)','ejemplar_2'); ?>
+                            <?php echo $form->dropDownList($ejemplares, 'ejemplar', CHtml::listData(Ejemplares::model()->findAll(array('order'=>'ejemplar asc')),'id', 'ejemplar'), array('name'=>'ejemplares[]', 'id'=>'ejemplar_2')); ?>         
+                        </div>
+                    <div id="mensajesSistema2"  class="materialData2"></div>
                     <br>                    
-                    <div id="tabla-mat1" class="span9 offset1"></div>
-                
-            </fieldset><!--fin datos del material1-->
-        </div>
-        <br>
+                    <div id="tabla-mat2" class="span9 offset1"></div>
+                    </div>
+                </fieldset>
+            </div><!--fin datos del material2-->
 
-        <div id="material_2" class="row-fluid" align="center">
-            <fieldset class="mtrls"><!--Datos del Material2-->
-                <legend class="span12 mtrs" style=" font-size: 17px;"><b>Datos del Material</b></legend>
-                <div>
-                    <div><?php echo $form->labelEx($materiales,'cota', array('for'=>'mat2')); ?></div>
+            <br>
+
+            <div id="material_3" class="row-fluid" align="center">
+                <fieldset class="mtrls"><!--Datos del Material3-->
+                    <legend class="span12 mtrs" style=" font-size: 17px;"><b>Datos del Material</b></legend>
                     <div>
-                        <?php echo $form->textField($materiales,'cota',array('maxlength'=>'10', 'onchange'=>'buscarMaterial(2)', 'name'=>'Materiales[]', 'id'=>'mat2')); ?>
+                        <div><?php echo $form->labelEx($materiales,'cota', array('for'=>'mat3')); ?></div>
+                        <div>
+                            <?php echo $form->textField($materiales,'cota',array('maxlength'=>'10', 'onchange'=>'buscarMaterial(3)', 'name'=>'Materiales[]', 'id'=>'mat3')); ?>
+                        </div>
+                        <div id="ejemplar3">
+                            <?php echo CHtml::label('Ejemplar(es)','ejemplar_3'); ?>
+                            <?php echo $form->dropDownList($ejemplares, 'ejemplar', CHtml::listData(Ejemplares::model()->findAll(array('order'=>'ejemplar asc')),'id', 'ejemplar'), array('name'=>'ejemplares[]', 'id'=>'ejemplar_3')); ?>         
+                        </div>
+                    <div id="mensajesSistema3"  class="materialData3"></div>
+                    <br>                    
+                    <div id="tabla-mat3" class="span9 offset1"></div>
                     </div>
-                    <div id="ejemplar2">
-                        <?php echo CHtml::label('Ejemplar(es)','ejemplar_2'); ?>
-                        <?php echo $form->dropDownList($ejemplares, 'ejemplar', CHtml::listData(Ejemplares::model()->findAll(array('order'=>'ejemplar asc')),'id', 'ejemplar'), array('name'=>'ejemplares[]', 'id'=>'ejemplar_2')); ?>         
-                    </div>
-                <div id="mensajesSistema2"  class="materialData2"></div>
-                <br>                    
-                <div id="tabla-mat2" class="span9 offset1"></div>
-                </div>
-            </fieldset><!--fin datos del material2-->
-        </div>
-        <br>
+                </fieldset>
+            </div><!--fin datos del material3-->
+        </div><!--Fin seccion materiales-->
 
-        <div id="material_3" class="row-fluid" align="center">
-            <fieldset class="mtrls"><!--Datos del Material3-->
-                <legend class="span12 mtrs" style=" font-size: 17px;"><b>Datos del Material</b></legend>
+        <br>
+        
+        <div id="prestamo_data">
+            <div id="usuarios" class="row-fluid" align="center">
+                <legend class="span12 mtrs" style=" font-size: 17px;"><b>Usuarios</b></legend>
                 <div>
-                    <div><?php echo $form->labelEx($materiales,'cota', array('for'=>'mat3')); ?></div>
-                    <div>
-                        <?php echo $form->textField($materiales,'cota',array('maxlength'=>'10', 'onchange'=>'buscarMaterial(3)', 'name'=>'Materiales[]', 'id'=>'mat3')); ?>
+                <?php 
+                    $datos = Datos::model()->findAll('id_tipo=1 and borrado=FALSE');
+                    $data = array();
+
+                    foreach ($datos as $dato)
+                        $data[$dato->id] = $dato->nombres . ' '. $dato->apellidos;
+                ?>
+                <?php echo $form->labelEx($model, 'id_prestador'); ?>
+                <?php echo $form->dropDownList($model, 'id_prestador', $data, array('prompt'=>'Seleccione',
+                                                                                    'class'=>'input-medium')
+                                                );
+                ?>
+                <?php echo $form->error($model,'id_prestador'); ?>
+                </div>
+                <div id="pass_error"></div>
+                <div id="check-pass" class="input-append">
+                    <?php echo $form->passwordField($modelDatos, 'password'); ?>
+                    <?php $this->widget('bootstrap.widgets.TbButton', array(
+                        'label'=>'Verificar',
+                        'type'=>'primary',
+                        'htmlOptions'=>array(
+                            'id'=>'btn-pass',
+                            'onclick'=>'verificarPass()',
+                        ),
+                    )); ?>
+                </div>
+            </div>
+
+            <br>
+
+            <div id="tipo_prestamo" class="row-fluid" align="center">
+                <legend class="span12 mtrs" style=" font-size: 17px;"><b>Tipo de Prestamo</b></legend>
+                <div class="span5">
+                    <?php echo CHtml::label('Sala',CHtml::activeId($model, 'id_tipoprestamo')); ?>
+                    <?php echo CHtml::radioButton('tprestamo', true, array('value'=>1, 'uncheckvalue'=>null)); ?>
+                </div>
+                <div class="span5"> 
+                    <?php echo CHtml::label('Circulante',CHtml::activeId($model, 'id_tipoprestamo')); ?>
+                    <?php echo CHtml::radioButton('tprestamo', '', array('value'=>2, 'uncheckvalue'=>null)); ?>
+                </div>
+            </div>
+
+            <br>
+
+            <div id="fecha_prestamo" class="row-fluid" align="center">
+                <legend class="span12 mtrs" style=" font-size: 17px;"><b>Fechas del Prestamo</b></legend>
+                    <div id="fecha_prestamo" class="span5">
+                        <?php echo $form->textFieldRow($model,'fecha_prestamo', array('readonly'=>true, 'value'=>date("d-m-Y"),)); ?>
                     </div>
-                    <div id="ejemplar3">
-                        <?php echo CHtml::label('Ejemplar(es)','ejemplar_3'); ?>
-                        <?php echo $form->dropDownList($ejemplares, 'ejemplar', CHtml::listData(Ejemplares::model()->findAll(array('order'=>'ejemplar asc')),'id', 'ejemplar'), array('name'=>'ejemplares[]', 'id'=>'ejemplar_3')); ?>         
+                    <div id="fecha_entrega" class="span6">
+                        <?php echo $form->labelEx($model, 'fecha_entrega'); ?>
+                        <?php $this->widget('zii.widgets.jui.CJuiDatePicker',
+                                            array(
+                                                'model' => $model,
+                                                'attribute' => 'fecha_entrega',
+                                                'value' => $model->fecha_entrega,
+                                                'language' => 'es',
+                                                'htmlOptions' => array('readonly' => "readonly", 'class' => 'input-large', 'id'=>'fentrega'),
+                                                //additional javascript options for the date picker plugin
+                                                'options' => array(
+                                                                'autoSize' => true,
+                                                                // 'defaultDate'=>$model->fechanacimiento,
+                                                                //'dateFormat'=>'yy-m-d',
+                                                                'dateFormat' => 'dd-mm-yy',
+                                                                'buttonImage' => Yii::app()->baseUrl . '/images/calendario.png',
+                                                                'buttonImageOnly' => true,
+                                                                'buttonText' => 'Escoger fecha',
+                                                                'selectOtherMonths' => true,
+                                                                'showAnim' => 'slide',
+                                                                'showButtonPanel' => true,
+                                                                'showOn' => 'button',
+                                                                        'changeMonth' => 'true',
+                                                                        'changeYear' => 'true',
+                                                                        'yearRange' => "1900:+nn",
+                                                                        'minDate'=> 0,
+                                                                    ),
+                                                                ));
+                        ?>
+                        <?php echo $form->error($model, 'fecha_entrega'); ?>
                     </div>
-                <div id="mensajesSistema3"  class="materialData3"></div>
-                <br>                    
-                <div id="tabla-mat3" class="span9 offset1"></div>
-                </div>
-            </fieldset><!--fin datos del material3-->
-        </div>
-        <br>
-
-        <div id="cant_materiales" class="row-fluid" align="center">
-            <legend class="span12 mtrs" style=" font-size: 17px;"><b>Usuarios</b></legend>
-            <div>
-            <?php 
-                $datos = Datos::model()->findAll('id_tipo=1 and borrado=FALSE');
-                $data = array();
-
-                foreach ($datos as $dato)
-                    $data[$dato->id] = $dato->nombres . ' '. $dato->apellidos;
-            ?>
-            <?php echo $form->labelEx($model, 'id_prestador'); ?>
-            <?php echo $form->dropDownList($model, 'id_prestador', $data, array('prompt'=>'Seleccione',
-                                                                                'class'=>'input-medium')
-                                            );
-            ?>
-            <?php echo $form->error($model,'id_prestador'); ?>
             </div>
-            <div id="pass_error"></div>
-            <div id="check-pass" class="input-append">
-                <?php echo $form->passwordField($modelDatos, 'password'); ?>
-                <?php $this->widget('bootstrap.widgets.TbButton', array(
-                    'label'=>'Verificar',
-                    'type'=>'primary',
-                    'htmlOptions'=>array(
-                        'id'=>'btn-pass',
-                        'onclick'=>'verificarPass()',
-                    ),
-                )); ?>
-            </div>
-        </div>
-        <br>
 
-        <div id="tipo_prestamo" class="row-fluid" align="center">
-            <legend class="span12 mtrs" style=" font-size: 17px;"><b>Tipo de Prestamo</b></legend>
-            <div class="span5">
-                <?php echo CHtml::label('Sala',CHtml::activeId($model, 'id_tipoprestamo')); ?>
-                <?php echo CHtml::radioButton('tprestamo', true, array('value'=>1, 'uncheckvalue'=>null)); ?>
-            </div>
-            <div class="span5"> 
-                <?php echo CHtml::label('Circulante',CHtml::activeId($model, 'id_tipoprestamo')); ?>
-                <?php echo CHtml::radioButton('tprestamo', '', array('value'=>2, 'uncheckvalue'=>null)); ?>
-            </div>
-        </div>
-        <br>
+            <br><br>
 
-        <div id="fecha_prestamo" class="row-fluid" align="center">
-            <legend class="span12 mtrs" style=" font-size: 17px;"><b>Fechas del Prestamo</b></legend>
-                <div id="fecha_prestamo" class="span5">
-                    <?php echo $form->textFieldRow($model,'fecha_prestamo', array('readonly'=>true, 'value'=>date("d-m-Y"),)); ?>
-                </div>
-                <div id="fecha_entrega" class="span6">
-                    <?php echo $form->labelEx($model, 'fecha_entrega'); ?>
-                    <?php $this->widget('zii.widgets.jui.CJuiDatePicker',
-                                        array(
-                                            'model' => $model,
-                                            'attribute' => 'fecha_entrega',
-                                            'value' => $model->fecha_entrega,
-                                            'language' => 'es',
-                                            'htmlOptions' => array('readonly' => "readonly", 'class' => 'input-large', 'id'=>'fentrega'),
-                                            //additional javascript options for the date picker plugin
-                                            'options' => array(
-                                                            'autoSize' => true,
-                                                            // 'defaultDate'=>$model->fechanacimiento,
-                                                            //'dateFormat'=>'yy-m-d',
-                                                            'dateFormat' => 'dd-mm-yy',
-                                                            'buttonImage' => Yii::app()->baseUrl . '/images/calendario.png',
-                                                            'buttonImageOnly' => true,
-                                                            'buttonText' => 'Escoger fecha',
-                                                            'selectOtherMonths' => true,
-                                                            'showAnim' => 'slide',
-                                                            'showButtonPanel' => true,
-                                                            'showOn' => 'button',
-                                                                    'changeMonth' => 'true',
-                                                                    'changeYear' => 'true',
-                                                                    'yearRange' => "1900:+nn",
-                                                                    'minDate'=> 0,
-                                                                ),
-                                                            ));
-                    ?>
-                    <?php echo $form->error($model, 'fecha_entrega'); ?>
-                </div>
-        </div>
-        <br><br>
-        <div id="seccion-guardar" align="center">
-            <?php $this->widget('bootstrap.widgets.TbButton',
-                                array(
-                                    'buttonType' => 'submit',
-                                    'type' => 'success',
-                                    'icon'=>'icon-ok',
-                                    'label' => 'Guardar Prestamo',
-                                    'htmlOptions' => array(
-                                                        'id' => 'btn-guardar',
-                                                    ),
-                                )
-                        );
-            ?>
+            <div id="seccion-guardar" align="center">
+                <?php $this->widget('bootstrap.widgets.TbButton',
+                                    array(
+                                        'buttonType' => 'submit',
+                                        'type' => 'success',
+                                        'icon'=>'icon-ok',
+                                        'label' => 'Guardar Prestamo',
+                                        'htmlOptions' => array(
+                                                            'id' => 'btn-guardar',
+                                                        ),
+                                    )
+                            );
+                ?>
 
-            <?php $this->widget('bootstrap.widgets.TbButton',
-                                array(
-                                    'type' => 'danger',
-                                    'icon'=>'icon-remove',
-                                    'label' => 'Cancelar',
-                                    'url' => 'index.php?r=site/index',
-                                    'htmlOptions' => array(
-                                                        'id' => 'btn-cancelar',
-                                                    ),
-                                )
-                        );
-            ?>
-        </div>
+                <?php $this->widget('bootstrap.widgets.TbButton',
+                                    array(
+                                        'type' => 'danger',
+                                        'icon'=>'icon-remove',
+                                        'label' => 'Cancelar',
+                                        'url' => 'index.php?r=site/index',
+                                        'htmlOptions' => array(
+                                                            'id' => 'btn-cancelar',
+                                                        ),
+                                    )
+                            );
+                ?>
+            </div>
+        </div><!--fin datos prestamo-->
     </div><!--Fin materiales-container-->
 </div><!--Fin formulario-->
 
@@ -283,7 +294,10 @@
 
         $("#ejemplar1").hide();
         $("#ejemplar2").hide();
-        $("#ejemplar3").hide();*/
+        $("#ejemplar3").hide();
+
+        $("#contenedor-prestamo").hide();
+        $("#prestamo_data").hide(); */
 
         $("#check-pass").hide();
         $("#btn-modal").hide();
@@ -306,6 +320,8 @@
             //alert(cantidad);
 
             if (cantidad == 1) {
+                
+                $("#contenedor-prestamo").show(0500);
 
                 $("#materiales").show(0500);
                 $("#material_1").show(0500);            
@@ -323,8 +339,12 @@
                 $("#ejemplar3").hide(0500);
                 $("#tabla-mat3").html("");
 
+                $("#prestamo_data").show(0500);
+
             }else{
                 if (cantidad == 2) {
+
+                    $("#contenedor-prestamo").show(0500);
 
                     $("#materiales").show(0500);
                     $("#material_1").show(0500);            
@@ -337,13 +357,20 @@
                     $("#ejemplar_3").html("");
                     $("#ejemplar3").hide(0500);
 
+                    $("#prestamo_data").show(0500);
+
                 }else{
                     if (cantidad == 3) {
+
+                        $("#contenedor-prestamo").show(0500);
 
                         $("#materiales").show(0500);
                         $("#material_1").show(0500);            
                         $("#material_2").show(0500);
                         $("#material_3").show(0500);
+
+                        $("#prestamo_data").show(0500);
+
                     }else{
                         if (cantidad == "") {
 
@@ -477,6 +504,52 @@
     function buscarMaterial(num){                             
             
         var material = $("#mat"+num).val();
+        var cotas = $("#materiales input:text").filter(":visible");
+
+
+        cotas.each(function(){
+                
+            $(this).change(function(){
+                alert($(this).val());
+                var cantidad = cotas.length;
+
+                switch (cantidad) {
+                    case "2":
+                        
+                        var campo_cota_1 = $("#mat1");
+                        var campo_cota_2 = $("#mat2");
+                        
+                        $("div#err_cotas").html("");
+
+                        var campos = new Array(campo_cota_1, campo_cota_2);
+
+                        campos.each(function(){
+
+                            campos.change(function(){
+                            
+                                var cota_1 = $("#mat1").val();
+                                var cota_2 = $("#mat2").val();
+
+                                if (cota_1 == cota_2) {
+                                    
+                                    $(this).css("border-color", "#b94a48");
+                                    $(this).val("");
+                                    $("div#err_cotas").html("No puede escoger el mismo material 2 veces");
+                                }
+                            });
+                        });
+                        
+                        break;
+                    
+                    default:
+                        
+                        break;
+                }
+            });
+        });
+
+        return false;
+
         if (material && material!=="") {
                 
             $.ajax({
@@ -554,6 +627,8 @@
         $("#material_2").hide(0500);
         $("#material_3").hide(0500);
 
+        $("#prestamo_data").hide(0500);
+
         $("#'.CHtml::activeId($model,'id_prestador').' option:eq(0)").prop("selected", true);//desplegable de prestador
         $("#'.CHtml::activeId($modelDatos, 'password').'").val("");//campo de password en prestador
         $("#fentrega").val("");//campo fecha de entrega
@@ -573,7 +648,7 @@
         $("#mensajesSistem").html("");
 
         $("#cant_materiales").hide(0500);
-        $("#materiales").hide(0500);
+        $("#contenedor-prestamo").hide(0500);
 
         limpiaryesconder();
 
@@ -591,7 +666,7 @@
         $("#estado").html("");
 
         $("#cant_materiales").hide(0500);
-        $("#materiales").hide(0500);
+        $("#contenedor-prestamo").hide(0500);
 
         limpiaryesconder();
 
